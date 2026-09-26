@@ -154,7 +154,7 @@ function Header() {
           <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
-          <Link href="/lesson" className="header-cta" onClick={() => setOpen(false)}>Start learning <ArrowRight size={16} /></Link>
+          <a href="/#learning-paths" className="header-cta" onClick={() => setOpen(false)}>Start learning <ArrowRight size={16} /></a>
           <button type="button" className="menu-button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
             {open ? <X size={25} /> : <Menu size={25} />}
           </button>
@@ -262,8 +262,8 @@ function HomePage() {
             <h1>Find your <span>sign.</span></h1>
             <p>ASL Garden is a joyful corner of the internet for learning American Sign Language through play, practice, and real connection.</p>
             <div className="hero-actions">
-              <Link href="/lesson" className="button-primary">Explore a lesson <ArrowRight size={18} /></Link>
-              <Link href="/conversation" className="button-ghost">Open a conversation</Link>
+              <Link href="/courses" className="button-primary">Explore a lesson <ArrowRight size={18} /></Link>
+              <Link href="/stories" className="button-ghost">Stories</Link>
             </div>
             <div className="hero-note"><Users size={15} /> Made for Deaf, hard-of-hearing, and hearing learners.</div>
           </div>
@@ -281,7 +281,7 @@ function HomePage() {
           </div>
         </div>
       </section>
-      <section className="home-paths content-section">
+      <section id="learning-paths" className="home-paths content-section">
         <div className="page-wrap">
           <div className="section-head">
             <div><div className="section-kicker">Pick a path</div><h2 className="section-title">Small lessons.<br />Big lightbulbs.</h2></div>
@@ -300,20 +300,39 @@ function HomePage() {
   );
 }
 
-function LessonPage({ words }: { words: Word[] }) {
+function CoursesPage() {
   return (
     <>
-      <PageIntro eyebrow="Your first lesson" title="See it. Sign it. Keep growing." copy="A visual-first lesson with starter vocabulary. Watch a sign when a hosted clip is available, then practice the word in your own time.">
-        <div className="intro-badge"><Play size={16} /> 8 starter signs</div>
-      </PageIntro>
+      <PageIntro
+        eyebrow="Courses"
+        title="Choose what you want to learn."
+        copy="Pick a course and grow your ASL skills one step at a time."
+      />
       <main className="page-wrap page-content">
-        <div className="lesson-feature">
-          <div className="lesson-feature-copy"><div className="section-kicker">Today’s garden bed</div><h2>Useful words for everyday connection.</h2><p>Each card leads with the sign so you can learn by watching and noticing, not by decoding a paragraph.</p></div>
-          <SignVisual label="Hello" kind="hello" large />
-        </div>
-        <div className="section-head page-section-head"><div><div className="section-kicker">Vocabulary seeds</div><h2 className="section-title">Meet the words.</h2></div></div>
-        <div className="visual-card-grid">
-          {words.map((word) => <article key={word.id} className="visual-word-card"><SignVisual label={word.word} kind={word.id} mediaUrl={word.mediaUrl} mediaType={word.mediaType} /><div className="visual-word-meta"><span>{word.category}</span><h3>{word.word}</h3><p>{word.definition}</p></div></article>)}
+        <div className="path-grid">
+          <Link href="/reference" className="path-card path-card-yellow">
+            <BookOpen size={30} />
+            <span>Course 01</span>
+            <h3>Alphabet</h3>
+            <p>Learn the ASL signs for every letter and practice with visual examples.</p>
+            <ArrowRight className="path-arrow" />
+          </Link>
+
+          <Link href="/numbers" className="path-card path-card-blue">
+            <FileText size={30} />
+            <span>Course 02</span>
+            <h3>Numbers</h3>
+            <p>Practice ASL number signs and build confidence with numbers.</p>
+            <ArrowRight className="path-arrow" />
+          </Link>
+
+          <Link href="/fruits-vegetables" className="path-card path-card-green">
+            <Carrot size={30} />
+            <span>Course 03</span>
+            <h3>Food</h3>
+            <p>Explore food, fruit, and vegetable signs with visual practice.</p>
+            <ArrowRight className="path-arrow" />
+          </Link>
         </div>
       </main>
     </>
@@ -851,7 +870,7 @@ function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
     <ErrorBoundary resetKey={useLocation()[0]}>
       <Switch>
         <Route path="/" component={HomePage} />
-        <Route path="/lesson">{() => <LessonPage words={data.words} />}</Route>
+        <Route path="/courses" component={CoursesPage} />
         <Route path="/conversation">{() => <ConversationPage conversations={data.conversations} />}</Route>
         <Route path="/games">{() => <GamesPage words={data.words} />}</Route>
         <Route path="/lookup">{() => <LookupPage words={data.words} />}</Route>
