@@ -744,13 +744,17 @@ function ContactPage() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch('/', {
+      formData.append('access_key', '0352233f-013a-4cfb-b76c-0e88d363d570');
+      formData.append('subject', 'New message from ASL Garden');
+
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString(),
+        body: formData,
       });
 
-      if (!response.ok) throw new Error('Submission failed');
+      const result = await response.json();
+      if (!result.success) throw new Error(result.message || 'Submission failed');
+
       form.reset();
       setSubmitted(true);
     } catch {
@@ -780,8 +784,8 @@ function ContactPage() {
               <span>Your feedback has been sent successfully.</span>
             </div>
           )}
-          <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={handleContactSubmit} className="contact-form">
-            <input type="hidden" name="form-name" value="contact" />
+          <form name="contact" method="POST" onSubmit={handleContactSubmit} className="contact-form">
+            <input type="checkbox" name="botcheck" tabIndex={-1} aria-hidden="true" style={{ display: 'none' }} />
             <p className="contact-honeypot" aria-hidden="true">
               <label>Do not fill this out: <input name="bot-field" tabIndex={-1} autoComplete="off" /></label>
             </p>
