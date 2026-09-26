@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ASL Garden"
+description = "A cheerful, accessible learning garden where kids and adults can explore American Sign Language through vocabulary games, a word-to-sign guide, fingerspelling references, and friendly articles."
+version = "1.0.0"
+id = "artifacts/asl-garden"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20365
+
+[services.development]
+run = "pnpm --filter @workspace/asl-garden run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/asl-garden", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/asl-garden/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20365"
+BASE_PATH = "/"

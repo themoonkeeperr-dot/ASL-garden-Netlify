@@ -1,0 +1,20 @@
+[
+  {
+    "id": "first-hello",
+    "title": "A first hello",
+    "context": "Meeting someone new",
+    "lines": [
+      {"speaker":"Maya","words":[{"word":"Hello","kind":"hello"},{"word":"friend","kind":"friend"}]},
+      {"speaker":"Noah","words":[{"word":"Hello","kind":"hello"},{"word":"joy","kind":"joy"}]}
+    ]
+  },
+  {
+    "id": "garden-day",
+    "title": "A garden day",
+    "context": "Making a plan",
+    "lines": [
+      {"speaker":"Maya","words":[{"word":"You","kind":"you"},{"word":"play","kind":"play"},{"word":"garden","kind":"garden"}]},
+      {"speaker":"Noah","words":[{"word":"Together","kind":"together"},{"word":"thank-you","kind":"thank-you"}]}
+    ]
+  }
+]

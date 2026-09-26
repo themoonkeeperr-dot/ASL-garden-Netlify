@@ -1,0 +1,468 @@
+  return <div className="signed-word-row">{words.map((word) => <SignedWord key={`${word}-${signKindForWord(word)}`} word={word} compact={compact} />)}</div>;
+}
+
+function StickerSign({ label, emoji }: { label: string; emoji: string }) {
+  return <div className="sign-sticker" role="img" aria-label={`${label} sign sticker`}><span>{emoji}</span><small>sticker sign</small></div>;
+}
+
+function PageIntro({ eyebrow, title, copy, children }: { eyebrow: string; title: string; copy: string; children?: ReactNode }) {
+  return (
+    <section className="page-intro">
+      <div className="page-wrap page-intro-inner">
+        <div>
+          <div className="section-kicker">{eyebrow}</div>
+          <h1>{title}</h1>
+          <p>{copy}</p>
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function HomePage() {
+  return (
+    <>
+      <section className="home-hero">
+        <div className="home-hero-inner">
+          <div className="home-copy">
+            <div className="eyebrow">A place to grow your hands</div>
+            <h1>Find your <span>sign.</span></h1>
+            <p>ASL Garden is a joyful corner of the internet for learning American Sign Language through play, practice, and real connection.</p>
+            <div className="hero-actions">
+              <Link href="/lesson" className="button-primary">Explore a lesson <ArrowRight size={18} /></Link>
+              <Link href="/conversation" className="button-ghost">Open a conversation</Link>
+            </div>
+            <div className="hero-note"><Users size={15} /> Made for Deaf, hard-of-hearing, and hearing learners.</div>
+          </div>
+          <div className="hero-sign-pair" aria-label="Featured ASL signs">
+            <div className="hero-sign-card hero-sign-hello">
+              <StickerSign label="Hello" emoji="👋🏻" />
+              <div><span>Featured sign</span><strong>Hello</strong></div>
+            </div>
+            <div className="hero-sign-card hero-sign-love">
+              <StickerSign label="I Love You" emoji="🤟🏻" />
+              <div><span>Featured sign</span><strong>I Love You</strong></div>
+            </div>
+            <Flower2 className="hero-flower flower-top" size={58} aria-hidden="true" />
+            <Flower2 className="hero-flower flower-bottom" size={72} aria-hidden="true" />
+          </div>
+        </div>
+      </section>
+      <section className="home-paths content-section">
+        <div className="page-wrap">
+          <div className="section-head">
+            <div><div className="section-kicker">Pick a path</div><h2 className="section-title">Small lessons.<br />Big lightbulbs.</h2></div>
+            <p className="section-intro">Every part of the garden has its own place to explore. Start anywhere.</p>
+          </div>
+          <div className="path-grid">
+            <Link href="/games" className="path-card path-card-blue"><CircleHelp size={30} /><span>Playful practice</span><h3>Games & quizzes</h3><p>Match, remember, and try again without pressure.</p><ArrowRight className="path-arrow" /></Link>
+            <Link href="/lookup" className="path-card path-card-pink"><Search size={30} /><span>Find a sign</span><h3>Word translator</h3><p>Search a word and see its visual sign guide first.</p><ArrowRight className="path-arrow" /></Link>
+            <Link href="/reference" className="path-card path-card-yellow"><BookOpen size={30} /><span>Turn the page</span><h3>Alphabet book</h3><p>Letters, signs, and the objects that bring them to life.</p><ArrowRight className="path-arrow" /></Link>
+            <Link href="/fruits-vegetables" className="path-card path-card-green"><Carrot size={30} /><span>Fresh from the garden</span><h3>Fruits & vegetables</h3><p>Practice signs for favorite foods with a visual-first guide.</p><ArrowRight className="path-arrow" /></Link>
+            
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function LessonPage({ words }: { words: Word[] }) {
+  return (
+    <>
+      <PageIntro eyebrow="Your first lesson" title="See it. Sign it. Keep growing." copy="A visual-first lesson with starter vocabulary. Watch a sign when a hosted clip is available, then practice the word in your own time.">
+        <div className="intro-badge"><Play size={16} /> 8 starter signs</div>
+      </PageIntro>
+      <main className="page-wrap page-content">
+        <div className="lesson-feature">
+          <div className="lesson-feature-copy"><div className="section-kicker">Today’s garden bed</div><h2>Useful words for everyday connection.</h2><p>Each card leads with the sign so you can learn by watching and noticing, not by decoding a paragraph.</p></div>
+          <SignVisual label="Hello" kind="hello" large />
+        </div>
+        <div className="section-head page-section-head"><div><div className="section-kicker">Vocabulary seeds</div><h2 className="section-title">Meet the words.</h2></div></div>
+        <div className="visual-card-grid">
+          {words.map((word) => <article key={word.id} className="visual-word-card"><SignVisual label={word.word} kind={word.id} mediaUrl={word.mediaUrl} mediaType={word.mediaType} /><div className="visual-word-meta"><span>{word.category}</span><h3>{word.word}</h3><p>{word.definition}</p></div></article>)}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function ConversationPage({ conversations }: { conversations: Conversation[] }) {
+  return (
+    <>
+      <PageIntro eyebrow="Open a conversation" title="Signs and words, side by side." copy="Read a few short exchanges one word at a time. Each word gets its own visual space so hands and language stay connected.">
+        <div className="intro-badge"><Users size={16} /> Practice together</div>
+      </PageIntro>
+      <main className="page-wrap page-content conversation-page">
+        {conversations.map((conversation) => (
+          <article className="conversation-card" key={conversation.id}>
+            <div className="conversation-heading"><span>{conversation.title}</span><strong>{conversation.context}</strong></div>
+            {conversation.lines.map((line, index) => (
+              <div className={`conversation-line ${index % 2 ? 'reply' : ''}`} key={`${conversation.id}-${line.speaker}`}>
+                <div className="speaker">{line.speaker}</div>
+                <div className="conversation-words">
+                  {line.words.map((word) => <div className="conversation-word" key={`${line.speaker}-${word.word}`}><SignVisual label={word.word} kind={word.kind} /><span>{word.word}</span></div>)}
+                </div>
+              </div>
+            ))}
+          </article>
+        ))}
+      </main>
+    </>
+  );
+}
+
+
+function GamesPage({ words: _words }: { words: Word[] }) {
+  const pool = gameSigns;
+  const [round, setRound] = useState(0);
+  const [answer, setAnswer] = useState<string | null>(null);
+  const current = pool[round % pool.length];
+  const options = useMemo(() => [current, ...pool.filter((word) => word.id !== current.id).slice(0, 2)].sort((a,b) => a.word.localeCompare(b.word)), [current, pool]);
+  const nextRound = () => { setAnswer(null); setRound((value) => value + 1); };
+  return (
+    <>
+      <PageIntro eyebrow="Visual sign guessing game" title="Watch the sign. Guess the word." copy="A real sign video is shown first. Choose the English word you think matches it. There is no voice and no fingerspelling in the game." />
+      <main className="page-wrap page-content">
+        <section className="game-board visual-game-board">
+          <div className="game-question">
+            <div className="section-kicker">Round {round + 1}</div>
+            <h2>What word is this sign?</h2>
+            <SignVisual label={current.word} kind={current.id} mediaUrl={current.mediaUrl} mediaType={current.mediaType} large />
+            <p className="game-prompt">Watch the signer, then choose the English word.</p>
+          </div>
+          <div className="game-answer">
+            <div className="game-options">{options.map((option) => <button type="button" key={option.id} className={`game-option verbal-option ${answer === option.id ? (option.id === current.id ? 'correct' : 'wrong') : ''}`} onClick={() => setAnswer(option.id)}><span>{option.word}</span></button>)}</div>
+            <div className="game-feedback" role="status" aria-live="polite">{answer ? answer === current.id ? 'Correct! Great watching.' : `Not this one. The sign is “${current.word}”.` : 'Choose the English word.'}</div>
+            {answer && <button type="button" className="text-button" onClick={nextRound}>Next sign <ArrowRight size={16} /></button>}
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
+function translateToASLGloss(input: string) {
+  const raw = input.trim().replace(/\s+/g, ' ');
+  if (!raw) return { gloss: '', tokens: [] as string[] };
+  const tokens = raw.match(/[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+/g) ?? [];
+  const common = new Set(['a','an','the','to','of','and','is','am','are','was','were','do','does','did','it']);
+  let kept = tokens.map((token) => token.toLowerCase()).filter((token) => !common.has(token));
+  const wh = kept.filter((token) => ['who','what','when','where','why','how','which','whose'].includes(token));
+  kept = kept.filter((token) => !wh.includes(token));
+  if (wh.length) kept = [...kept, ...wh];
+  const gloss = kept.map((token) => token.toUpperCase()).join(' ');
+  return { gloss, tokens: kept };
+}
+
+function LookupPage({ words }: { words: Word[] }) {
+  const [query, setQuery] = useState('');
+  const [submitted, setSubmitted] = useState('');
+  const translation = useMemo(() => translateToASLGloss(submitted), [submitted]);
+  const mediaByWord = useMemo(() => new Map(Object.entries(safeSignMedia)), []);
+  const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitted(query); };
+  const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token.toLowerCase()));
+  return (
+    <>
+      <PageIntro eyebrow="English → ASL visual translator" title="Type a sentence and watch the signs." copy="The translator creates an ASL-style gloss and opens a visual sign for each word. For words with a local licensed clip, the clip plays here; other words use a visual dictionary page." />
+      <main className="page-wrap page-content">
+        <form className="translator-form translator-form-large" onSubmit={submit} role="search">
+          <Search size={22} aria-hidden="true" />
+          <label htmlFor="word-search" className="sr-only">Enter English text</label>
+          <textarea id="word-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Type a sentence… e.g. I love apples and broccoli." rows={4} />
+          <button type="submit" className="button-primary">Show signs <ArrowRight size={17} /></button>
+        </form>
+        {submitted ? <section className="translator-result translator-sentence-result">
+          <div><div className="section-kicker">ASL-style gloss</div><h2>{translation.gloss || 'No words to show'}</h2><p className="result-note">ASL has its own grammar, so this is a learning aid rather than a perfect automatic translation.</p></div>
+          <div className="translated-word-grid">{visibleTokens.map((token, index) => { const local = mediaByWord.get(token.toLowerCase()); return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
+          {!visibleTokens.length && <p className="result-note">No verified visual sign is available for the entered words yet.</p>}
+        </section> : <div className="search-welcome"><div className="translator-welcome-art">ASL</div><div><h2>What do you want to say?</h2><p>Type any English sentence and the page will turn it into a visual word-by-word learning sequence.</p></div></div>}
+      </main>
+    </>
+  );
+}
+
+const alphabetImageUrl = (letter: string) => `https://commons.wikimedia.org/wiki/Special:FilePath/Sign_language_${letter.toUpperCase()}.svg`;
+
+// Public-domain photographic ASL alphabet from Wikimedia Commons (Cwterp).
+// It is arranged A–Y in five columns across five rows, with Z on the final row.
+const startAslAlphabetImage = 'https://www.startasl.com/wp-content/uploads/sign-language-alphabet.png';
+
+// These crop boxes are taken from the same Start ASL alphabet artwork used in the
+// original Replit reference. The SVG viewBox shows only the photographed hand,
+// leaving the printed letter/copyright text outside the crop.
+const startAslHandCrops: Record<string, [number, number, number, number]> = {
+  A: [55, 78, 86, 118], B: [205, 68, 92, 130], C: [360, 78, 94, 120], D: [508, 72, 78, 130], E: [628, 78, 82, 120],
+  F: [55, 245, 92, 125], G: [205, 250, 105, 102], H: [360, 250, 112, 105], I: [508, 242, 82, 115], J: [620, 238, 92, 122],
+  K: [55, 408, 92, 110], L: [205, 415, 100, 104], M: [360, 415, 92, 112], N: [505, 418, 86, 105], O: [625, 412, 92, 125],
+  P: [55, 555, 92, 112], Q: [205, 562, 92, 105], R: [350, 535, 105, 135], S: [500, 558, 84, 104], T: [625, 558, 84, 104],
+  U: [55, 704, 88, 112], V: [205, 700, 92, 115], W: [360, 698, 100, 118], X: [505, 700, 92, 112], Y: [620, 700, 95, 118],
+  Z: [55, 858, 96, 100],
+};
+
+function StartAslHand({ letter }: { letter: string }) {
+  const [x, y, width, height] = startAslHandCrops[letter.toUpperCase()] ?? startAslHandCrops.A;
+  return (
+    <svg className="startasl-hand-crop" viewBox={`${x} ${y} ${width} ${height}`} role="img" aria-label={`ASL fingerspelling handshape for ${letter}`}>
+      <image href={startAslAlphabetImage} x="0" y="0" width="773" height="1000" preserveAspectRatio="none" />
+    </svg>
+  );
+}
+
+function ReferencePage({ alphabet }: { alphabet: Letter[] }) {
+  // Keep the original Replit picture-book layout: handshape on the left,
+  // animated sign example on the right, and the A → Word label underneath.
+  // Only reusable/verified Signbank clips are used here.
+  // Same visual-video source family as the original Replit alphabet cards.
+  // The handshape artwork is the Start ASL alphabet image; the word examples
+  // use the matching legacy Start ASL video filenames where available.
+  const safeExamples: Record<string, string> = {
+    A: 'https://assets-videos-legacy.startasl.com/videos/apple-2.mp4',
+    B: 'https://assets-videos-legacy.startasl.com/videos/book.mp4',
+    C: 'https://assets-videos-legacy.startasl.com/videos/church.mp4',
+    D: 'https://assets-videos-legacy.startasl.com/videos/dance.mp4',
+    E: 'https://assets-videos-legacy.startasl.com/videos/early.mp4',
+    F: 'https://assets-videos-legacy.startasl.com/videos/flower.mp4',
+    G: 'https://assets-videos-legacy.startasl.com/videos/gardening.mp4',
+    H: 'https://assets-videos-legacy.startasl.com/videos/hello.mp4',
+    I: 'https://assets-videos-legacy.startasl.com/videos/ime.mp4',
+    J: 'https://assets-videos-legacy.startasl.com/videos/jacket.mp4',
+    K: 'https://assets-videos.startasl.com/videos-new/kitchen.mp4',
+    L: 'https://assets-videos-legacy.startasl.com/videos/learn.mp4',
+    M: 'https://assets-videos-legacy.startasl.com/videos/married.mp4',
+    N: 'https://assets-videos-legacy.startasl.com/videos/nice.mp4',
+    O: 'https://assets-videos-legacy.startasl.com/videos/open.mp4',
+    P: 'https://assets-videos-legacy.startasl.com/videos/play.mp4',
+    Q: 'https://assets-videos-legacy.startasl.com/videos/quiet.mp4',
+    R: 'https://media.signbsl.com/videos/asl/aslsignbank/mp4/RAINBOW-745.mp4',
+    S: 'https://assets-videos-legacy.startasl.com/videos/school.mp4',
+    T: 'https://assets-videos-legacy.startasl.com/videos/table.mp4',
+    U: 'https://assets-videos-legacy.startasl.com/videos/university.mp4',
+    V: 'https://assets-videos-legacy.startasl.com/videos/vacation.mp4',
+    W: 'https://assets-videos-legacy.startasl.com/videos/wait.mp4',
+    X: 'https://assets-videos-legacy.startasl.com/videos/excited.mp4',
+    Y: 'https://assets-videos-legacy.startasl.com/videos/you.mp4',
+    Z: 'https://upload.wikimedia.org/wikipedia/commons/4/49/ASL_O%40Side-PalmForward.jpg',
+  };
+
+  const visibleAlphabet = alphabet.filter((item) => Boolean(safeExamples[item.letter]));
+
+  return (
+    <main className="alphabet-reference-page">
+      <div className="page-wrap alphabet-reference-wrap">
+        <div className="alphabet-book alphabet-replit-grid">
+          {visibleAlphabet.map((item) => (
+            <article className="alphabet-card alphabet-replit-card" key={item.letter}>
+              <div className="alphabet-sticker"><span>{item.letter}</span><small>fingerspell</small></div>
+              <div className="alphabet-pair alphabet-replit-pair">
+                <div className="alphabet-panel alphabet-hand-panel">
+                  <div className="alphabet-hand-image">
+                    <StartAslHand letter={item.letter} />
+                  </div>
+                  <span className="visual-caption">LETTER {item.letter}</span>
+                </div>
+                <div className="alphabet-panel alphabet-example-panel">
+                  <SignVisual
+                    label={item.word}
+                    kind={signKindForWord(item.word)}
+                    mediaUrl={safeExamples[item.letter]}
+                    mediaType={item.letter === 'Z' ? 'image' : 'video'}
+                    fallback={<StartAslHand letter={item.letter} />}
+                  />
+                  <span className="visual-caption">{item.word.toUpperCase()}</span>
+                </div>
+              </div>
+              <h3>{item.letter} → {item.word}</h3>
+            </article>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
+const numberImageUrl = (number: number) => `https://commons.wikimedia.org/wiki/Special:FilePath/LSQ_${number}.jpg`;
+
+function NumberVisual({ number }: { number: number }) {
+  const direct = number <= 23 || number % 10 === 0;
+  if (direct) return <img src={numberImageUrl(number)} alt={`ASL sign for number ${number}`} loading="lazy" />;
+  const tens = Math.floor(number / 10) * 10;
+  const ones = number % 10;
+  return <div className="number-composed-sign"><img src={numberImageUrl(tens)} alt={`ASL sign for ${tens}`} loading="lazy" /><span>+</span><img src={numberImageUrl(ones)} alt={`ASL sign for ${ones}`} loading="lazy" /></div>;
+}
+
+function NumbersPage() {
+  const numbers = Array.from({ length: 100 }, (_, index) => index + 1);
+  return (
+    <>
+      <PageIntro eyebrow="Number practice" title="Every number gets a hand sign." copy="Numbers 1–100 now have their own page. The sign image is shown directly on every card; compound numbers use their visual parts." />
+      <main className="page-wrap page-content">
+        <div className="numbers-grid visual-numbers-grid">{numbers.map((number) => <article className="number-card visual-number-card" key={number}><div className="number-sign-image"><NumberVisual number={number} /></div><strong>{number}</strong></article>)}</div>
+      </main>
+    </>
+  );
+}
+
+function FruitsPage({ fruits }: { fruits: Produce[] }) {
+  // Food clips use the current Start ASL video collection for the produce
+  // cards that were blank with the older Signbank URLs. The older Signbank
+  // clips remain as fallbacks for entries we already had working.
+  const foodMedia: Record<string, string> = {
+    apple: 'https://assets-videos.startasl.com/videos-new/apple.mp4',
+    banana: 'https://assets-videos.startasl.com/videos-new/banana.mp4',
+    carrot: 'https://assets-videos.startasl.com/videos-new/carrot.mp4',
+    cherry: 'https://assets-videos.startasl.com/videos-new/cherry.mp4',
+    tomato: 'https://assets-videos.startasl.com/videos-new/tomato.mp4',
+    corn: safeSignMedia.corn.url,
+    broccoli: safeSignMedia.broccoli.url,
+    potato: 'https://assets-videos.startasl.com/videos-new/potato.mp4',
+    onion: 'https://assets-videos.startasl.com/videos-new/onion.mp4',
+    garlic: 'https://assets-videos.startasl.com/videos-new/garlic.mp4',
+    lettuce: 'https://assets-videos.startasl.com/videos-new/lettuce.mp4',
+    cucumber: 'https://assets-videos.startasl.com/videos-new/cucumber.mp4',
+    spinach: 'https://assets-videos.startasl.com/videos-new/spinach.mp4',
+    pepper: 'https://assets-videos.startasl.com/videos-new/pepper.mp4',
+    peas: 'https://assets-videos.startasl.com/videos-new/peas.mp4',
+    pumpkin: 'https://assets-videos.startasl.com/videos-new/pumpkin.mp4',
+    'sweet-potato': 'https://assets-videos.startasl.com/videos-new/sweet-potato.mp4',
+    zucchini: 'https://assets-videos.startasl.com/videos-new/zucchini.mp4',
+    mushroom: 'https://assets-videos.startasl.com/videos-new/mushroom.mp4',
+    cauliflower: 'https://assets-videos.startasl.com/videos-new/cauliflower.mp4',
+    bean: 'https://assets-videos.startasl.com/videos-new/bean.mp4',
+  };
+  const [failed, setFailed] = useState<Record<string, boolean>>({});
+  const visible = fruits.filter((item) => Boolean(foodMedia[item.id]) && !failed[item.id]);
+
+  return (
+    <>
+      <PageIntro eyebrow="Food garden" title="Food: fruits & vegetables." copy="See the animated ASL sign first. Clips are embedded without controls so they behave like GIFs, while staying video files rather than making new copies of other sites' media.">
+        <div className="intro-badge"><Carrot size={16} /> Visual food shelf</div>
+      </PageIntro>
+      <main className="page-wrap page-content">
+        <div className="produce-grid">
+          {visible.map((item) => {
+            const media = foodMedia[item.id];
+            return (
+              <article className="produce-card" key={item.id}>
+                <div className="food-sign-frame">
+                  <SignVisual
+                    label={item.word}
+                    kind={item.id}
+                    mediaUrl={media}
+                    mediaType="video"
+                    large
+                    onMediaError={() => setFailed((current) => ({ ...current, [item.id]: true }))}
+                  />
+                </div>
+                <div><span>{item.type}</span><h2>{item.word}</h2></div>
+              </article>
+            );
+          })}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function StoryIllustration({ theme }: { theme: string }) {
+  return <div className={`story-illustration story-illustration-${theme}`} aria-label="Playful story illustration" role="img"><Dog size={66} /><Sun size={44} /><House size={42} /></div>;
+}
+
+function StoryWord({ word }: { word: string }) {
+  const letters = word.toUpperCase().replace(/[^A-Z]/g, '').split('');
+  return <div className="story-spelled-word"><div className="story-letter-strip">{letters.map((letter, index) => <img key={`${letter}-${index}`} src={alphabetImageUrl(letter)} alt={`${letter} in ASL fingerspelling`} loading="lazy" />)}</div><strong>{word}</strong></div>;
+}
+
+function StoryLine({ text }: { text: string }) {
+  const tokens = text.match(/[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+|[.,!?]/g) ?? [];
+  return <div className="story-word-line">{tokens.filter((token) => !/^[.,!?]$/.test(token)).map((token, index) => <StoryWord word={token} key={`${token}-${index}`} />)}</div>;
+}
+
+function StoriesPage({ stories }: { stories: Story[] }) {
+  const [storyIndex, setStoryIndex] = useState(0);
+  const story = stories[storyIndex];
+  if (!story) return null;
+  return (
+    <>
+      <PageIntro eyebrow="Storybook garden" title="Read it, spell it, sign it." copy="Read the simple English story. Above every word, each letter is shown with its ASL fingerspelling handshape." />
+      <main className="page-wrap page-content">
+        <div className="story-picker" aria-label="Choose a story">{stories.map((item, index) => <button type="button" className={index === storyIndex ? 'active' : ''} onClick={() => setStoryIndex(index)} key={item.id}>{item.title}</button>)}</div>
+        <section className={`storybook storybook-${story.theme}`}>
+          <div className="storybook-header"><span>Complete story</span><strong>{story.title}</strong></div>
+          <StoryIllustration theme={story.theme} />
+          <div className="storybook-copy"><h2>{story.title}</h2><p>{story.subtitle}</p><div className="story-full-text">{story.pages.map((page, index) => <section key={`${page.label}-${index}`}><span className="story-page-label">{page.label}</span><StoryLine text={page.sentence} /></section>)}</div></div>
+          <div className="storybook-controls"><Link href="/lookup" className="text-button">Try the visual translator →</Link></div>
+        </section>
+      </main>
+    </>
+  );
+}
+
+function FAQPage({ faq }: { faq: FAQ[] }) {
+  const questions = [
+    { id: 'who', question: 'Who can learn ASL?', words: ['Who', 'can', 'learn', 'ASL'], answer: 'Anyone can begin learning ASL. Deaf people, hearing people, families, students, teachers, and interpreters all learn in different ways and at different speeds.' },
+    { id: 'what', question: 'What does this sign mean?', words: ['What', 'does', 'this', 'sign', 'mean'], answer: 'Use the dictionary or source links to compare signs and meanings. A single English word can have more than one ASL sign depending on meaning and context.' },
+    { id: 'when', question: 'When should I use a WH-question?', words: ['When', 'use', 'WH-question'], answer: 'WH-questions ask for information such as a person, thing, time, place, reason, or method. In ASL, the question word is commonly placed toward the end and paired with the appropriate facial grammar.' },
+    { id: 'where', question: 'Where is the sign used?', words: ['Where', 'sign', 'use'], answer: 'ASL is used primarily in the United States and parts of Canada, but sign languages are not universal. Regional variation can exist within ASL too.' },
+    { id: 'why', question: 'Why can one English word have different signs?', words: ['Why', 'one', 'English', 'word', 'different', 'sign'], answer: 'Meaning and context matter. English words can be polysemous, and ASL can distinguish those meanings with different signs or constructions.' },
+    { id: 'how', question: 'How do I practice a new sign?', words: ['How', 'practice', 'new', 'sign'], answer: 'Watch a reliable signer, notice handshape, movement, location and non-manual markers, then practice in a short sentence. For important communication, learn with fluent Deaf signers or qualified teachers.' },
+    { id: 'which', question: 'Which sign should I choose?', words: ['Which', 'sign', 'choose'], answer: 'Choose the sign that matches the meaning and context. When several variants exist, compare examples from more than one reputable ASL source.' },
+  ];
+  return (
+    <>
+      <PageIntro eyebrow="WH-questions for curious hands" title="Who, what, when, where, why, how, which." copy="These are real ASL-learning questions—not a quiz about what ASL stands for. Each question has a sign row above it so you can study the WH-word first." />
+      <main className="page-wrap page-content faq-page">
+        {questions.map((item) => <article className="faq-card wh-question-card" key={item.id}><MessageCircleQuestion size={32} aria-hidden="true" /><SignedWordRow words={item.words} compact /><h2>{item.question}</h2><p>{item.answer}</p></article>)}
+      </main>
+    </>
+  );
+}
+
+function LoadingState() {
+  return <div className="page-wrap status-box" role="status"><div className="skeleton" /><div className="skeleton wide" /><span className="sr-only">Growing your lesson garden</span></div>;
+}
+
+function ErrorState({ onRetry }: { onRetry: () => void }) {
+  return <div className="page-wrap status-box" role="alert"><strong>That patch needs a little water.</strong><p>We could not open the garden content right now.</p><button type="button" className="button-primary" onClick={onRetry}>Try again</button></div>;
+}
+
+function Footer() {
+  return <footer className="footer"><div className="page-wrap footer-inner"><Brand /><span>Made for curious hands and open hearts. <a href="https://aslsignbank.haskins.yale.edu/about/conditions/" target="_blank" rel="noreferrer">ASL Signbank media</a> is used under its published CC BY-NC-SA terms.</span><div className="footer-links"><Link href="/conversation">Conversation</Link><Link href="/stories">Notes</Link></div></div></footer>;
+}
+
+function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
+  return (
+    <ErrorBoundary resetKey={useLocation()[0]}>
+      <Switch>
+        <Route path="/" component={HomePage} />
+        <Route path="/lesson">{() => <LessonPage words={data.words} />}</Route>
+        <Route path="/conversation">{() => <ConversationPage conversations={data.conversations} />}</Route>
+        <Route path="/games">{() => <GamesPage words={data.words} />}</Route>
+        <Route path="/lookup">{() => <LookupPage words={data.words} />}</Route>
+        <Route path="/reference">{() => <ReferencePage alphabet={data.alphabet} />}</Route>
+        <Route path="/numbers" component={NumbersPage} />
+        <Route path="/fruits-vegetables">{() => <FruitsPage fruits={data.fruits} />}</Route>
+        <Route path="/stories">{() => <StoriesPage stories={data.stories} />}</Route>
+        <Route component={NotFound} />
+      </Switch>
+    </ErrorBoundary>
+  );
+}
+
+function App() {
+  const data = useGardenData();
+  const [attempt, setAttempt] = useState(0);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <div className="app-shell"><Header /><main>{data.status === 'loading' ? <div className="status-region"><LoadingState /></div> : data.status === 'error' ? <div className="status-region"><ErrorState onRetry={() => setAttempt((value) => value + 1)} /></div> : <Router key={attempt} data={data} />}</main><Footer /></div>
+        </WouterRouter>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

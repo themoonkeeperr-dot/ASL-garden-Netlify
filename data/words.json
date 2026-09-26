@@ -1,0 +1,370 @@
+[
+  {
+    "id": "hello",
+    "word": "Hello",
+    "category": "Connection",
+    "difficulty": "Sprout",
+    "definition": "A warm greeting that opens the door to conversation.",
+    "tip": "Start with an open palm and a small wave.",
+    "color": "blue"
+  },
+  {
+    "id": "friend",
+    "word": "Friend",
+    "category": "Connection",
+    "difficulty": "Sprout",
+    "definition": "Someone you enjoy learning, laughing, and growing with.",
+    "tip": "Hook your bent index fingers together twice.",
+    "color": "pink"
+  },
+  {
+    "id": "learn",
+    "word": "Learn",
+    "category": "Everyday",
+    "difficulty": "Seedling",
+    "definition": "To take in something new and make it yours.",
+    "tip": "Scoop an idea from your open palm up to your forehead.",
+    "color": "yellow"
+  },
+  {
+    "id": "garden",
+    "word": "Garden",
+    "category": "Places",
+    "difficulty": "Seedling",
+    "definition": "A place where living things grow with care.",
+    "tip": "Use both hands to show rows growing from the ground.",
+    "color": "blue"
+  },
+  {
+    "id": "thank-you",
+    "word": "Thank you",
+    "category": "Connection",
+    "difficulty": "Sprout",
+    "definition": "A sign of appreciation and a little everyday kindness.",
+    "tip": "Touch your chin, then move your hand outward.",
+    "color": "pink"
+  },
+  {
+    "id": "play",
+    "word": "Play",
+    "category": "Everyday",
+    "difficulty": "Sprout",
+    "definition": "To explore, experiment, and have a good time.",
+    "tip": "Shake your relaxed hands with thumbs and pinkies out.",
+    "color": "yellow"
+  },
+  {
+    "id": "joy",
+    "word": "Joy",
+    "category": "Feelings",
+    "difficulty": "Seedling",
+    "definition": "A bright feeling that makes room for more bright feelings.",
+    "tip": "Lift both open hands upward with a happy expression.",
+    "color": "blue"
+  },
+  {
+    "id": "water",
+    "word": "Water",
+    "category": "Nature",
+    "difficulty": "Seedling",
+    "definition": "The essential ripple that helps every garden grow.",
+    "tip": "Make a W handshape and tap it below your chin.",
+    "color": "pink"
+  },
+  {
+    "id": "mother",
+    "word": "Mother",
+    "category": "Family",
+    "difficulty": "Sprout",
+    "definition": "A loving grown-up in your family.",
+    "color": "pink"
+  },
+  {
+    "id": "father",
+    "word": "Father",
+    "category": "Family",
+    "difficulty": "Sprout",
+    "definition": "A loving grown-up in your family.",
+    "color": "blue"
+  },
+  {
+    "id": "family",
+    "word": "Family",
+    "category": "Family",
+    "difficulty": "Sprout",
+    "definition": "The people who care for and grow with you.",
+    "color": "yellow"
+  },
+  {
+    "id": "baby",
+    "word": "Baby",
+    "category": "Family",
+    "difficulty": "Sprout",
+    "definition": "A very young little person.",
+    "color": "pink"
+  },
+  {
+    "id": "child",
+    "word": "Child",
+    "category": "Family",
+    "difficulty": "Sprout",
+    "definition": "A young person learning and growing.",
+    "color": "blue"
+  },
+  {
+    "id": "sister",
+    "word": "Sister",
+    "category": "Family",
+    "difficulty": "Seedling",
+    "definition": "A girl or woman in your family.",
+    "color": "pink"
+  },
+  {
+    "id": "brother",
+    "word": "Brother",
+    "category": "Family",
+    "difficulty": "Seedling",
+    "definition": "A boy or man in your family.",
+    "color": "blue"
+  },
+  {
+    "id": "happy",
+    "word": "Happy",
+    "category": "Feelings",
+    "difficulty": "Sprout",
+    "definition": "A bright feeling that makes you want to smile.",
+    "color": "yellow"
+  },
+  {
+    "id": "sad",
+    "word": "Sad",
+    "category": "Feelings",
+    "difficulty": "Sprout",
+    "definition": "A feeling that deserves care and kindness.",
+    "color": "blue"
+  },
+  {
+    "id": "excited",
+    "word": "Excited",
+    "category": "Feelings",
+    "difficulty": "Seedling",
+    "definition": "A bubbly feeling when something special is near.",
+    "color": "pink"
+  },
+  {
+    "id": "angry",
+    "word": "Angry",
+    "category": "Feelings",
+    "difficulty": "Seedling",
+    "definition": "A strong feeling we can name and work through.",
+    "color": "pink"
+  },
+  {
+    "id": "tired",
+    "word": "Tired",
+    "category": "Feelings",
+    "difficulty": "Seedling",
+    "definition": "A cue that your body needs rest.",
+    "color": "blue"
+  },
+  {
+    "id": "eat",
+    "word": "Eat",
+    "category": "Everyday",
+    "difficulty": "Sprout",
+    "definition": "To enjoy food and give your body energy.",
+    "color": "yellow"
+  },
+  {
+    "id": "drink",
+    "word": "Drink",
+    "category": "Everyday",
+    "difficulty": "Sprout",
+    "definition": "To take in a refreshing sip.",
+    "color": "blue"
+  },
+  {
+    "id": "sleep",
+    "word": "Sleep",
+    "category": "Everyday",
+    "difficulty": "Sprout",
+    "definition": "To rest and let your body recharge.",
+    "color": "pink"
+  },
+  {
+    "id": "school",
+    "word": "School",
+    "category": "Learning",
+    "difficulty": "Sprout",
+    "definition": "A place where people learn together.",
+    "color": "yellow"
+  },
+  {
+    "id": "teacher",
+    "word": "Teacher",
+    "category": "Learning",
+    "difficulty": "Seedling",
+    "definition": "A person who helps others learn.",
+    "color": "blue"
+  },
+  {
+    "id": "student",
+    "word": "Student",
+    "category": "Learning",
+    "difficulty": "Seedling",
+    "definition": "A person who is learning something new.",
+    "color": "pink"
+  },
+  {
+    "id": "book",
+    "word": "Book",
+    "category": "School",
+    "difficulty": "Sprout",
+    "definition": "A place for words, pictures, and new ideas.",
+    "color": "yellow"
+  },
+  {
+    "id": "pencil",
+    "word": "Pencil",
+    "category": "School",
+    "difficulty": "Sprout",
+    "definition": "A tool for drawing and writing.",
+    "color": "blue"
+  },
+  {
+    "id": "paper",
+    "word": "Paper",
+    "category": "School",
+    "difficulty": "Sprout",
+    "definition": "A blank place for ideas to grow.",
+    "color": "pink"
+  },
+  {
+    "id": "home",
+    "word": "Home",
+    "category": "Places",
+    "difficulty": "Sprout",
+    "definition": "A place where you feel safe and welcome.",
+    "color": "yellow"
+  },
+  {
+    "id": "house",
+    "word": "House",
+    "category": "Places",
+    "difficulty": "Sprout",
+    "definition": "A building where people live.",
+    "color": "blue"
+  },
+  {
+    "id": "dog",
+    "word": "Dog",
+    "category": "Animals",
+    "difficulty": "Sprout",
+    "definition": "A friendly animal with a wagging tail.",
+    "color": "pink"
+  },
+  {
+    "id": "cat",
+    "word": "Cat",
+    "category": "Animals",
+    "difficulty": "Sprout",
+    "definition": "A soft animal that likes to stretch and nap.",
+    "color": "yellow"
+  },
+  {
+    "id": "bird",
+    "word": "Bird",
+    "category": "Animals",
+    "difficulty": "Sprout",
+    "definition": "An animal with feathers and wings.",
+    "color": "blue"
+  },
+  {
+    "id": "sun",
+    "word": "Sun",
+    "category": "Weather",
+    "difficulty": "Sprout",
+    "definition": "The warm light in the daytime sky.",
+    "color": "yellow"
+  },
+  {
+    "id": "rain",
+    "word": "Rain",
+    "category": "Weather",
+    "difficulty": "Sprout",
+    "definition": "Drops of water falling from the sky.",
+    "color": "blue"
+  },
+  {
+    "id": "cold",
+    "word": "Cold",
+    "category": "Weather",
+    "difficulty": "Seedling",
+    "definition": "A chilly feeling in the air or on your skin.",
+    "color": "pink"
+  },
+  {
+    "id": "hot",
+    "word": "Hot",
+    "category": "Weather",
+    "difficulty": "Seedling",
+    "definition": "A warm feeling in the air or on your skin.",
+    "color": "yellow"
+  },
+  {
+    "id": "monday",
+    "word": "Monday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "The first school day in our week garden.",
+    "color": "blue"
+  },
+  {
+    "id": "tuesday",
+    "word": "Tuesday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "A day for another small step forward.",
+    "color": "pink"
+  },
+  {
+    "id": "wednesday",
+    "word": "Wednesday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "The middle of a week of practice.",
+    "color": "yellow"
+  },
+  {
+    "id": "thursday",
+    "word": "Thursday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "A day to keep growing your words.",
+    "color": "blue"
+  },
+  {
+    "id": "friday",
+    "word": "Friday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "A day that opens into the weekend.",
+    "color": "pink"
+  },
+  {
+    "id": "saturday",
+    "word": "Saturday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "A day for play, rest, and connection.",
+    "color": "yellow"
+  },
+  {
+    "id": "sunday",
+    "word": "Sunday",
+    "category": "Days",
+    "difficulty": "Seedling",
+    "definition": "A calm day to gather and recharge.",
+    "color": "blue"
+  }
+]

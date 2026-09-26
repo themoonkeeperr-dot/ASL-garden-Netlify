@@ -1,0 +1,119 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: public/media
+public_folder: /media
+
+collections:
+  - name: words
+    label: Vocabulary
+    folder: content/words
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Word, name: word, widget: string }
+      - { label: Category, name: category, widget: string }
+      - { label: Difficulty, name: difficulty, widget: string }
+      - { label: Definition, name: definition, widget: text }
+      - { label: Practice tip, name: tip, widget: text }
+      - { label: Media URL, name: mediaUrl, widget: string, required: false }
+      - { label: Media type, name: mediaType, widget: select, options: [image, video], required: false }
+      - { label: Card color, name: color, widget: select, options: [blue, pink, yellow] }
+
+  - name: alphabet
+    label: Alphabet & numbers
+    folder: content/alphabet
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Letter, name: letter, widget: string }
+      - { label: Word, name: word, widget: string }
+      - { label: Memory cue, name: note, widget: text }
+
+  - name: articles
+    label: Articles & news
+    folder: content/articles
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Tag, name: tag, widget: string }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Date, name: date, widget: datetime, format: "MMMM DD, YYYY" }
+      - { label: Read time, name: readTime, widget: string }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+
+  - name: fruits-vegetables
+    label: Fruits & vegetables
+    folder: content/fruits-vegetables
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Word, name: word, widget: string }
+      - { label: Type, name: type, widget: select, options: [Fruit, Vegetable] }
+      - { label: Card color, name: color, widget: string }
+      - { label: Sign media URL, name: mediaUrl, widget: string, required: false }
+      - { label: Media type, name: mediaType, widget: select, options: [image, video], required: false }
+
+  - name: conversations
+    label: Conversations
+    folder: content/conversations
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Context, name: context, widget: string }
+      - label: Lines
+        name: lines
+        widget: list
+        fields:
+          - { label: Speaker, name: speaker, widget: string }
+          - label: Words
+            name: words
+            widget: list
+            fields:
+              - { label: Printed word, name: word, widget: string }
+              - { label: Visual key, name: kind, widget: string }
+
+  - name: stories
+    label: Kids storybooks
+    folder: content/stories
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Subtitle, name: subtitle, widget: string }
+      - { label: Story color, name: theme, widget: select, options: [yellow, blue, pink] }
+      - label: Pages
+        name: pages
+        widget: list
+        fields:
+          - { label: Page label, name: label, widget: string }
+          - { label: English sentence, name: sentence, widget: string }
+          - { label: Signed words, name: words, widget: list, field: { label: Word, name: word, widget: string } }
+
+  - name: faq
+    label: Questions & answers
+    folder: content/faq
+    create: true
+    extension: json
+    format: json
+    slug: "{{slug}}"
+    fields:
+      - { label: Question, name: question, widget: string }
+      - { label: Question words, name: questionWords, widget: list, field: { label: Word, name: word, widget: string } }
+      - { label: Answer, name: answer, widget: text }
+      - { label: Answer words, name: answerWords, widget: list, field: { label: Word, name: word, widget: string } }

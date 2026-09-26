@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hello-little-garden",
+    "title": "Hello, Little Garden",
+    "subtitle": "Maya finds a small garden, cares for it, and makes a new friend.",
+    "theme": "yellow",
+    "pages": [
+      {"label":"Page 1","sentence":"Maya walks to the little garden."},
+      {"label":"Page 2","sentence":"She sees a small green plant."},
+      {"label":"Page 3","sentence":"The plant looks thirsty and tired."},
+      {"label":"Page 4","sentence":"Maya gives the plant some water."},
+      {"label":"Page 5","sentence":"A friendly boy comes to the garden."},
+      {"label":"Page 6","sentence":"Maya says hello to her new friend."},
+      {"label":"Page 7","sentence":"They learn how to care for the plants."},
+      {"label":"Page 8","sentence":"The little garden grows, and everyone feels happy."}
+    ]
+  },
+  {
+    "id": "water-play",
+    "title": "Water Play",
+    "subtitle": "Two friends turn a rainy afternoon into a joyful game.",
+    "theme": "blue",
+    "pages": [
+      {"label":"Page 1","sentence":"Rain falls on the garden."},
+      {"label":"Page 2","sentence":"Leo looks outside the window."},
+      {"label":"Page 3","sentence":"He sees a big puddle."},
+      {"label":"Page 4","sentence":"His friend Sam comes to play."},
+      {"label":"Page 5","sentence":"They put on their boots."},
+      {"label":"Page 6","sentence":"They jump into the puddle together."},
+      {"label":"Page 7","sentence":"They laugh, play, and make little waves."},
+      {"label":"Page 8","sentence":"When the rain stops, they walk home happy."}
+    ]
+  },
+  {
+    "id": "learn-together",
+    "title": "We Learn Together",
+    "subtitle": "A small classroom lesson becomes a shared adventure.",
+    "theme": "pink",
+    "pages": [
+      {"label":"Page 1","sentence":"A teacher opens a new book."},
+      {"label":"Page 2","sentence":"The students sit together."},
+      {"label":"Page 3","sentence":"Today they learn new signs."},
+      {"label":"Page 4","sentence":"Nora practices the sign for friend."},
+      {"label":"Page 5","sentence":"Alex practices the sign for happy."},
+      {"label":"Page 6","sentence":"They help each other and try again."},
+      {"label":"Page 7","sentence":"Soon everyone can sign the short sentence."},
+      {"label":"Page 8","sentence":"The class smiles because learning is better together."}
+    ]
+  }
+]

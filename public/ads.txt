@@ -1,0 +1,2 @@
+# Google AdSense publisher authorization will be added here after Google provides the publisher ID.
+# Do not invent a publisher ID. Replace this file with the exact line supplied by AdSense when required.

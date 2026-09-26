@@ -1,0 +1,228 @@
+[
+  {
+    "id": "apple",
+    "word": "Apple",
+    "type": "Fruit",
+    "color": "pink"
+  },
+  {
+    "id": "banana",
+    "word": "Banana",
+    "type": "Fruit",
+    "color": "yellow"
+  },
+  {
+    "id": "orange",
+    "word": "Orange",
+    "type": "Fruit",
+    "color": "yellow"
+  },
+  {
+    "id": "strawberry",
+    "word": "Strawberry",
+    "type": "Fruit",
+    "color": "pink"
+  },
+  {
+    "id": "carrot",
+    "word": "Carrot",
+    "type": "Vegetable",
+    "color": "orange"
+  },
+  {
+    "id": "tomato",
+    "word": "Tomato",
+    "type": "Vegetable",
+    "color": "red"
+  },
+  {
+    "id": "corn",
+    "word": "Corn",
+    "type": "Vegetable",
+    "color": "yellow",
+    "mediaUrl": "",
+    "mediaType": "video"
+  },
+  {
+    "id": "broccoli",
+    "word": "Broccoli",
+    "type": "Vegetable",
+    "color": "green",
+    "mediaUrl": "",
+    "mediaType": "video"
+  },
+  {
+    "id": "grape",
+    "word": "Grape",
+    "type": "Fruit",
+    "color": "purple"
+  },
+  {
+    "id": "pear",
+    "word": "Pear",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "peach",
+    "word": "Peach",
+    "type": "Fruit",
+    "color": "pink"
+  },
+  {
+    "id": "watermelon",
+    "word": "Watermelon",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "lemon",
+    "word": "Lemon",
+    "type": "Fruit",
+    "color": "yellow"
+  },
+  {
+    "id": "lime",
+    "word": "Lime",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "pineapple",
+    "word": "Pineapple",
+    "type": "Fruit",
+    "color": "yellow"
+  },
+  {
+    "id": "blueberry",
+    "word": "Blueberry",
+    "type": "Fruit",
+    "color": "blue"
+  },
+  {
+    "id": "raspberry",
+    "word": "Raspberry",
+    "type": "Fruit",
+    "color": "red"
+  },
+  {
+    "id": "cherry",
+    "word": "Cherry",
+    "type": "Fruit",
+    "color": "red"
+  },
+  {
+    "id": "mango",
+    "word": "Mango",
+    "type": "Fruit",
+    "color": "yellow"
+  },
+  {
+    "id": "avocado",
+    "word": "Avocado",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "coconut",
+    "word": "Coconut",
+    "type": "Fruit",
+    "color": "brown"
+  },
+  {
+    "id": "kiwi",
+    "word": "Kiwi",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "melon",
+    "word": "Melon",
+    "type": "Fruit",
+    "color": "green"
+  },
+  {
+    "id": "potato",
+    "word": "Potato",
+    "type": "Vegetable",
+    "color": "brown"
+  },
+  {
+    "id": "onion",
+    "word": "Onion",
+    "type": "Vegetable",
+    "color": "yellow"
+  },
+  {
+    "id": "garlic",
+    "word": "Garlic",
+    "type": "Vegetable",
+    "color": "white"
+  },
+  {
+    "id": "lettuce",
+    "word": "Lettuce",
+    "type": "Vegetable",
+    "color": "green"
+  },
+  {
+    "id": "cucumber",
+    "word": "Cucumber",
+    "type": "Vegetable",
+    "color": "green"
+  },
+  {
+    "id": "spinach",
+    "word": "Spinach",
+    "type": "Vegetable",
+    "color": "green"
+  },
+  {
+    "id": "pepper",
+    "word": "Pepper",
+    "type": "Vegetable",
+    "color": "red"
+  },
+  {
+    "id": "peas",
+    "word": "Peas",
+    "type": "Vegetable",
+    "color": "green"
+  },
+  {
+    "id": "pumpkin",
+    "word": "Pumpkin",
+    "type": "Vegetable",
+    "color": "orange"
+  },
+  {
+    "id": "sweet-potato",
+    "word": "Sweet Potato",
+    "type": "Vegetable",
+    "color": "orange"
+  },
+  {
+    "id": "zucchini",
+    "word": "Zucchini",
+    "type": "Vegetable",
+    "color": "green"
+  },
+  {
+    "id": "mushroom",
+    "word": "Mushroom",
+    "type": "Vegetable",
+    "color": "brown"
+  },
+  {
+    "id": "cauliflower",
+    "word": "Cauliflower",
+    "type": "Vegetable",
+    "color": "white"
+  },
+  {
+    "id": "bean",
+    "word": "Bean",
+    "type": "Vegetable",
+    "color": "green"
+  }
+]
