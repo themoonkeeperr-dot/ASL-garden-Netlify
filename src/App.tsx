@@ -126,9 +126,7 @@ function Header() {
   const links = [
     { href: '/games', label: 'Games' },
     { href: '/lookup', label: 'Translator' },
-    { href: '/reference', label: 'Alphabet' },
-    { href: '/numbers', label: 'Numbers' },
-    { href: '/fruits-vegetables', label: 'Food' },
+    { href: '/courses', label: 'Courses' },
     { href: '/stories', label: 'Stories' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
@@ -154,7 +152,7 @@ function Header() {
           <button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
-          <a href={`${import.meta.env.BASE_URL}#learning-paths`} className="header-cta" onClick={() => setOpen(false)}>Start learning <ArrowRight size={16} /></a>
+          <a href="/#learning-paths" className="header-cta" onClick={() => setOpen(false)}>Start learning <ArrowRight size={16} /></a>
           <button type="button" className="menu-button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
             {open ? <X size={25} /> : <Menu size={25} />}
           </button>
