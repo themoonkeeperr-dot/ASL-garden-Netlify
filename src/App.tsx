@@ -864,7 +864,19 @@ function AccessibilityPage() {
 }
 
 function Footer() {
-  return <footer className="footer"><div className="page-wrap footer-inner"><div><Brand /><span className="footer-note">Independent ASL learning project with third-party reference media.</span></div><div className="footer-links"><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/sources">Sources</Link><Link href="/accessibility">Accessibility</Link><Link href="/privacy">Privacy</Link></div></div></footer>;
+  return (
+    <footer className="footer">
+      <div className="page-wrap">
+        <p>© 2026 ASL Garden. All rights reserved.</p>
+        <p>
+          Some sign videos courtesy of{" "}
+          <a href="https://aslsignbank.com" target="_blank" rel="noopener noreferrer">ASL Signbank</a>{" "}
+          (Hochgesang, Crasborn &amp; Lillo-Martin), used under{" "}
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+  );
 }
 
 function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
