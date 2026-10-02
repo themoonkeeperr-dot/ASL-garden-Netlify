@@ -913,12 +913,9 @@ function Footer() {
     <footer className="footer">
       <div className="page-wrap">
         <p>© 2026 ASL Garden. All rights reserved.</p>
-        <p>
-          Some sign videos courtesy of{" "}
-          <a href="https://aslsignbank.com" target="_blank" rel="noopener noreferrer">ASL Signbank</a>{" "}
-          (Hochgesang, Crasborn &amp; Lillo-Martin), used under{" "}
-          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
-        </p>
+      <p>
+  <a href="/about">Credits</a>
+</p>
       </div>
     </footer>
   );
