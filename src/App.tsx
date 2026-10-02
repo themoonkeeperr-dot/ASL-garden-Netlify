@@ -913,8 +913,8 @@ function Footer() {
     <footer className="footer">
       <div className="page-wrap">
         <p>© 2026 ASL Garden. All rights reserved.</p>
-      <p>
-  <a href="/about">Credits</a>
+  <p>
+  <Link to="/about">Credits</Link>
 </p>
       </div>
     </footer>
