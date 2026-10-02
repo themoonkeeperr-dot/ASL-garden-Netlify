@@ -709,42 +709,145 @@ function AboutPage() {
       <PageIntro
         eyebrow="About ASL Garden"
         title="A small garden for learning ASL."
-        copy="ASL Garden is an independent learning project designed to make early American Sign Language practice visual, approachable, and easy to revisit."
-      >
-        <div className="intro-badge"><Leaf size={16} /> Learn by seeing and practicing</div>
-      </PageIntro>
+        copy="ASL Garden is a free educational project designed to make American Sign Language learning visual, approachable, and enjoyable."
+      />
+
       <main className="page-wrap page-content info-page">
         <article className="info-card">
-          <div className="section-kicker">Why it exists</div>
-          <h2>Learning a sign is more than memorizing an English word.</h2>
-          <p>ASL Garden puts handshape, movement, examples, and short explanations together so learners can notice patterns instead of relying on a text-only dictionary. The site is intended for practice and orientation, not as a substitute for instruction from fluent Deaf signers or qualified ASL teachers.</p>
+          <div className="section-kicker">Why ASL Garden exists</div>
+
+          <h2>Learning ASL is more than memorizing an English word.</h2>
+
+          <p>
+            ASL Garden was created to give learners a visual way to explore
+            and practice American Sign Language.
+          </p>
+
+          <p>
+            Instead of relying only on written definitions, the site brings
+            together signs, movement, examples, games, stories, and
+            interactive activities so learners can practice in different ways.
+          </p>
+
+          <p>
+            The goal is simple: make learning ASL feel more visual, friendly,
+            and fun.
+          </p>
         </article>
+
         <div className="info-grid">
-          <article className="info-card"><h3>What you can practice</h3><p>Use the alphabet for fingerspelling, numbers for visual repetition, the translator for vocabulary prompts, games for recall, food cards for themed vocabulary, conversations for short exchanges, and stories for repeated reading practice.</p></article>
-          <article className="info-card"><h3>How to use the visuals</h3><p>Watch the signer, identify the handshape and movement, pause and imitate, then use the sign in a short phrase. When a word has variants, compare context and reputable sources rather than assuming one English word always maps to one sign.</p></article>
-        <article className="info-card">
-  <h3>About the media</h3>
-  <p>
-    ASL Garden uses visual ASL examples to make learning more accessible
-    and easier to understand.
-  </p>
-  <p>
-    ASL sign videos used in the Translator are provided by Garrett Bose
-    of ASLology with permission.
-  </p>
-  <p>
-    <a
-      href="https://asllology.com/"
-      target="_blank"
-      rel="noreferrer"
-    >
-      Visit ASLology
-    </a>
-  </p>
-</article>
-          <article className="info-card"><h3>Accessibility</h3><p>The interface supports keyboard focus, descriptive labels, reduced-motion preferences, responsive layouts, and text alternatives for learning visuals where practical. If a feature is difficult to use, the project can be improved through user feedback.</p></article>
+          <article className="info-card">
+            <h3>What you can explore</h3>
+
+            <p>
+              ASL Garden brings several learning experiences together in one
+              place.
+            </p>
+
+            <ul>
+              <li>Alphabet and fingerspelling</li>
+              <li>Numbers</li>
+              <li>Food, fruits, and vegetables</li>
+              <li>Visual ASL translation practice</li>
+              <li>Interactive games</li>
+              <li>Stories with signs</li>
+              <li>ASL Garden Journal articles</li>
+            </ul>
+          </article>
+
+          <article className="info-card">
+            <h3>Learn by seeing</h3>
+
+            <p>
+              American Sign Language is a visual language. ASL Garden therefore
+              focuses on seeing, practicing, and repeating signs rather than
+              presenting vocabulary as text alone.
+            </p>
+
+            <p>
+              The different sections of the site are designed to give learners
+              more than one way to practice and revisit what they have learned.
+            </p>
+          </article>
+
+          <article className="info-card">
+            <h3>About the ASL videos</h3>
+
+            <p>
+              Some visual ASL videos used in the Translator are provided by
+              Garrett Bose of ASLology with permission.
+            </p>
+
+            <p>
+              These videos are used as learning resources within the ASL Garden
+              Translator and are credited to their creator.
+            </p>
+
+            <p>
+              <a
+                href="https://asllology.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit ASLology
+              </a>
+            </p>
+          </article>
+
+          <article className="info-card">
+            <h3>ASL Garden Journal</h3>
+
+            <p>
+              The Journal is where ASL Garden can go beyond vocabulary.
+            </p>
+
+            <p>
+              It can include original articles, explanations, fun facts,
+              learning tips, quizzes, interesting ASL topics, and other
+              educational material.
+            </p>
+
+            <p>
+              The goal is to make learning informative without making it boring.
+            </p>
+          </article>
+
+          <article className="info-card">
+            <h3>Our approach</h3>
+
+            <p>
+              ASL Garden is designed as a learning aid for people who want to
+              explore and practice ASL.
+            </p>
+
+            <p>
+              The site combines visual learning with repetition, interaction,
+              and simple explanations so learners can study at their own pace.
+            </p>
+          </article>
+
+          <article className="info-card">
+            <h3>Credits</h3>
+
+            <p>
+              ASL Garden's interface, learning activities, games, stories,
+              lessons, and other original site material are part of the
+              ASL Garden project.
+            </p>
+
+            <p>
+              External media is identified and credited to its respective
+              creator or source.
+            </p>
+
+            <p>
+              <strong>
+                ASL videos in the Translator: Garrett Bose of ASLology —
+                used with permission.
+              </strong>
+            </p>
+          </article>
         </div>
-        <div className="info-links"><Link href="/sources" className="button-primary"><FileText size={17}/> View sources & media notes</Link><Link href="/privacy" className="button-ghost info-ghost">Read the privacy policy</Link></div>
       </main>
     </>
   );
