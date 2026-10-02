@@ -722,7 +722,26 @@ function AboutPage() {
         <div className="info-grid">
           <article className="info-card"><h3>What you can practice</h3><p>Use the alphabet for fingerspelling, numbers for visual repetition, the translator for vocabulary prompts, games for recall, food cards for themed vocabulary, conversations for short exchanges, and stories for repeated reading practice.</p></article>
           <article className="info-card"><h3>How to use the visuals</h3><p>Watch the signer, identify the handshape and movement, pause and imitate, then use the sign in a short phrase. When a word has variants, compare context and reputable sources rather than assuming one English word always maps to one sign.</p></article>
-          <article className="info-card"><h3>About the media</h3><p>Some visual examples are hosted by external services and are credited or linked where applicable. ASL Garden does not claim ownership of third-party media. See the Sources page for the current media references and licensing information.</p></article>
+        <article className="info-card">
+  <h3>About the media</h3>
+  <p>
+    ASL Garden uses visual ASL examples to make learning more accessible
+    and easier to understand.
+  </p>
+  <p>
+    ASL sign videos used in the Translator are provided by Garrett Bose
+    of ASLology with permission.
+  </p>
+  <p>
+    <a
+      href="https://asllology.com/"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Visit ASLology
+    </a>
+  </p>
+</article>
           <article className="info-card"><h3>Accessibility</h3><p>The interface supports keyboard focus, descriptive labels, reduced-motion preferences, responsive layouts, and text alternatives for learning visuals where practical. If a feature is difficult to use, the project can be improved through user feedback.</p></article>
         </div>
         <div className="info-links"><Link href="/sources" className="button-primary"><FileText size={17}/> View sources & media notes</Link><Link href="/privacy" className="button-ghost info-ghost">Read the privacy policy</Link></div>
