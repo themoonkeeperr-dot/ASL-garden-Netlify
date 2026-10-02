@@ -218,10 +218,36 @@ function signKindForWord(word: string) {
   return normalized === 'thank you' ? 'thank-you' : normalized.replace(/\s+/g, '-');
 }
 
-function SignedWord({ word, kind = signKindForWord(word), compact = false, mediaUrl, mediaType }: { word: string; kind?: string; compact?: boolean; mediaUrl?: string; mediaType?: 'image' | 'video' | 'gif' }) {
+function SignedWord({
+  word,
+  kind = signKindForWord(word),
+  compact = false,
+  mediaUrl,
+  mediaType,
+  credit
+}: {
+  word: string;
+  kind?: string;
+  compact?: boolean;
+  mediaUrl?: string;
+  mediaType?: 'image' | 'video' | 'gif';
+  credit?: string;
+}) {
   return (
     <div className={`signed-word ${compact ? 'compact' : ''}`}>
-      <SignVisual label={word} kind={kind} mediaUrl={mediaUrl} mediaType={mediaType} />
+      <SignVisual
+        label={word}
+        kind={kind}
+        mediaUrl={mediaUrl}
+        mediaType={mediaType}
+      />
+
+      {credit && (
+        <div className="sign-credit">
+          {credit}
+        </div>
+      )}
+
       <span>{word}</span>
     </div>
   );
