@@ -531,6 +531,82 @@ function SentencePlayer({
   );
 }
 
+function SentencePlayer2({
+  tokens,
+  mediaByWord,
+}: {
+  tokens: string[];
+  mediaByWord: Map<string, { url: string; type: 'video' | 'gif' }>;
+}) {
+  const [active, setActive] = useState(0);
+  const [loaded, setLoaded] = useState<Record<number, boolean>>({});
+  const sentenceKey = tokens.join(' ');
+
+  useEffect(() => {
+    setActive(0);
+    setLoaded({});
+  }, [sentenceKey]);
+
+  const activeToken = tokens[active] ?? '';
+  const activeIsAslology = aslologyMedia.has(activeToken.toLowerCase());
+  const activeReady = !activeIsAslology || !!loaded[active];
+
+  useEffect(() => {
+    if (tokens.length < 2) return;
+    const timer = setTimeout(() => setActive((a) => (a + 1) % tokens.length),activeReady ? 4500 : 8000);
+    return () => clearTimeout(timer);
+  }, [active, activeReady, sentenceKey]);
+
+  if (!tokens.length) return null;
+
+  return (
+    <div>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 16, overflow: 'hidden', background: 'rgba(0,0,0,0.04)' }}>
+        {tokens.map((t, i) => {
+          const lower = t.toLowerCase();
+          const local = mediaByWord.get(lower);
+          return (
+            <div
+              key={sentenceKey + '-' + i}
+              style={{ position: 'absolute', inset: 0, opacity: i === active ? 1 : 0, transition: 'opacity 0.35s', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              {aslologyMedia.has(lower) ? (
+                <iframe
+                  title={'ASL sign for ' + t}
+                  src={'https://videopress.com/embed/' + aslologyMedia.get(lower) + '?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1'}
+                  onLoad={() => setLoaded((l) => ({ ...l, [i]: true }))}
+                  style={{ width: '100%', height: '100%', border: 0, transform: 'scale(1.3)', transformOrigin: 'center', pointerEvents: 'none' }}
+                  allow="autoplay; fullscreen"
+                />
+              ) : (
+                <SignedWord word={t} mediaUrl={local?.url} mediaType={local?.type} />
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {activeIsAslology && (
+        <div style={{ fontSize: '0.7rem', opacity: 0.75, textAlign: 'center', marginTop: 6 }}>
+          Sign video by Garrett Bose of{' '}
+          <a href="https://aslology.com" target="_blank" rel="noopener noreferrer">ASLology</a>
+        </div>
+      )}
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginTop: 12 }}>
+        {tokens.map((t, i) => (
+          <button
+            key={t + '-' + i}
+            type="button"
+            onClick={() => setActive(i)}
+            style={{ fontWeight: i === active ? 700 : 400, opacity: i === active ? 1 : 0.6, background: 'none', border: 0, cursor: 'pointer', textTransform: 'uppercase' }}
+          >
+            {t}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function LookupPage({ words }: { words: Word[] }) {
   const [query, setQuery] = useState('');
   const [submitted, setSubmitted] = useState('');
@@ -549,7 +625,7 @@ const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token
         </form>
         {submitted ? <section className="translator-result translator-sentence-result">
           <div><div className="section-kicker">ASL-style gloss</div><h2>{translation.gloss || 'No words to show'}</h2><p className="result-note">ASL has its own grammar, so this is a learning aid rather than a perfect automatic translation.</p></div>
-          <div style={{ maxWidth: 460, margin: '0 auto' }}><SentencePlayer tokens={visibleTokens} mediaByWord={mediaByWord} /></div><div className="translated-word-grid">{([] as string[]).map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token + '-' + index} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
+          <div style={{ maxWidth: 460, margin: '0 auto' }}><SentencePlayer2 tokens={visibleTokens} mediaByWord={mediaByWord} /></div><div className="translated-word-grid">{([] as string[]).map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token + '-' + index} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
           {!visibleTokens.length && <p className="result-note">No verified visual sign is available for the entered words yet.</p>}
         </section> : <div className="search-welcome"><div className="translator-welcome-art">ASL</div><div><h2>What do you want to say?</h2><p>Type any English sentence and the page will turn it into a visual word-by-word learning sequence.</p></div></div>}
       </main>
