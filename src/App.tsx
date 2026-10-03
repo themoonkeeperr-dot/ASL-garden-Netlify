@@ -429,6 +429,34 @@ function translateToASLGloss(input: string) {
   if (wh.length) kept = [...kept, ...wh];
   const gloss = kept.map((token) => token.toUpperCase()).join(' ');
   return { gloss, tokens: kept };
+  const aslologyMedia = new Map<string, string>([
+  ['hi', 'hXG4CXZH'], ['hello', 'hXG4CXZH'],
+  ['sign', '3z9FS3KT'], ['name', 'oYOZ10hU'], ['what', 'eTxytJM8'],
+  ['you', 'C0M4CTr5'], ['your', 'ur9xlY4r'],
+  ['i', 'kAFnWdCp'], ['me', 'kAFnWdCp'], ['my', 'BphfjXXz'],
+]);
+
+function AslologySign({ word }: { word: string }) {
+  const id = aslologyMedia.get(word.toLowerCase());
+  return (
+    <div className="signed-word">
+      <div className="sign-visual sign-player sign-gif-style" aria-label={`Animated ASL sign for ${word}`}>
+        <iframe
+          title={`ASL sign for ${word}`}
+          src={`https://videopress.com/embed/${id}?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1`}
+          style={{ width: '100%', aspectRatio: '16 / 9', border: 0 }}
+          allow="autoplay; fullscreen"
+          loading="lazy"
+        />
+      </div>
+      <div className="sign-credit" style={{ fontSize: '0.7rem', opacity: 0.75 }}>
+        Sign video by Garrett Bose of{' '}
+        <a href="https://aslology.com" target="_blank" rel="noopener noreferrer">ASLology</a>
+      </div>
+      <span>{word}</span>
+    </div>
+  );
+}
 }
 
 function LookupPage({ words }: { words: Word[] }) {
@@ -437,8 +465,7 @@ function LookupPage({ words }: { words: Word[] }) {
   const translation = useMemo(() => translateToASLGloss(submitted), [submitted]);
   const mediaByWord = useMemo(() => new Map(Object.entries(safeSignMedia)), []);
   const submit = (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); setSubmitted(query); };
-  const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token.toLowerCase()));
-  return (
+const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token.toLowerCase()) || aslologyMedia.has(token.toLowerCase()));  return (
     <>
       <PageIntro eyebrow="English → ASL visual translator" title="Type a sentence and watch the signs." copy="The translator creates an ASL-style gloss and opens a visual sign for each word. For words with a local licensed clip, the clip plays here; other words use a visual dictionary page." />
       <main className="page-wrap page-content">
@@ -450,7 +477,7 @@ function LookupPage({ words }: { words: Word[] }) {
         </form>
         {submitted ? <section className="translator-result translator-sentence-result">
           <div><div className="section-kicker">ASL-style gloss</div><h2>{translation.gloss || 'No words to show'}</h2><p className="result-note">ASL has its own grammar, so this is a learning aid rather than a perfect automatic translation.</p></div>
-          <div className="translated-word-grid">{visibleTokens.map((token, index) => { const local = mediaByWord.get(token.toLowerCase()); return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
+          <div className="translated-word-grid">{visibleTokens.map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token minus{index}} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
           {!visibleTokens.length && <p className="result-note">No verified visual sign is available for the entered words yet.</p>}
         </section> : <div className="search-welcome"><div className="translator-welcome-art">ASL</div><div><h2>What do you want to say?</h2><p>Type any English sentence and the page will turn it into a visual word-by-word learning sequence.</p></div></div>}
       </main>
