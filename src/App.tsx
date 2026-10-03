@@ -490,113 +490,115 @@ function SentencePlayer({
   mediaByWord: Map<string, { url: string; type: 'video' | 'gif' }>;
 }) {
   const [active, setActive] = useState(0);
+  const [playerKey, setPlayerKey] = useState(0);
+
   const sentenceKey = tokens.join(' ');
 
   useEffect(() => {
     setActive(0);
+    setPlayerKey((key) => key + 1);
   }, [sentenceKey]);
 
   useEffect(() => {
     if (tokens.length < 2) return;
-    const timer = setTimeout(() => setActive((a) => (a + 1) % tokens.length), 5000);
-    return () => clearTimeout(timer);
+
+    const timer = window.setTimeout(() => {
+      setActive((current) => (current + 1) % tokens.length);
+      setPlayerKey((key) => key + 1);
+    }, 3000);
+
+    return () => window.clearTimeout(timer);
   }, [active, sentenceKey]);
 
   if (!tokens.length) return null;
 
- const token = tokens[active] ?? tokens[0]; const nextToken = tokens[(active + 1) % tokens.length]; const nextId = tokens.length > 1 ? aslologyMedia.get(nextToken.toLowerCase()) : undefined;
+  const token = tokens[active] ?? tokens[0];
   const lower = token.toLowerCase();
+
+  const aslologyId = aslologyMedia.get(lower);
   const local = mediaByWord.get(lower);
 
   return (
     <div>
-      {aslologyMedia.has(lower) ? (
-<><AslologyClip key={active + '-' + token} word={token} />{nextId && <iframe title="preload" aria-hidden="true" tabIndex={-1} src={'https://videopress.com/embed/' + nextId + '?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1'} style={{ position: 'absolute', width: 1, height: 1, opacity: 0, pointerEvents: 'none', border: 0 }} />}</>      ) : (
-        <SignedWord key={active + '-' + token} word={token} mediaUrl={local?.url} mediaType={local?.type} />
-      )}
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginTop: 12 }}>
-        {tokens.map((t, i) => (
-          <button
-            key={t + '-' + i}
-            type="button"
-            onClick={() => setActive(i)}
-            style={{ fontWeight: i === active ? 700 : 400, opacity: i === active ? 1 : 0.6, background: 'none', border: 0, cursor: 'pointer', textTransform: 'uppercase' }}
-          >
-            {t}
-          </button>
-        ))}
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '16 / 9',
+          borderRadius: 16,
+          overflow: 'hidden',
+          background: 'rgba(0,0,0,0.04)',
+        }}
+      >
+        {aslologyId ? (
+          <iframe
+            key={playerKey}
+            title={`ASL sign for ${token}`}
+            src={`https://videopress.com/embed/${aslologyId}?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1`}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 0,
+              transform: 'scale(1.3)',
+              transformOrigin: 'center',
+            }}
+            allow="autoplay; fullscreen"
+          />
+        ) : (
+          <SignedWord
+            key={`${playerKey}-${token}`}
+            word={token}
+            mediaUrl={local?.url}
+            mediaType={local?.type}
+          />
+        )}
       </div>
-    </div>
-  );
-}
 
-function SentencePlayer2({
-  tokens,
-  mediaByWord,
-}: {
-  tokens: string[];
-  mediaByWord: Map<string, { url: string; type: 'video' | 'gif' }>;
-}) {
-  const [active, setActive] = useState(0);
-  const [loaded, setLoaded] = useState<Record<number, boolean>>({});
-  const sentenceKey = tokens.join(' ');
-
-  useEffect(() => {
-    setActive(0);
-    setLoaded({});
-  }, [sentenceKey]);
-
-  const activeToken = tokens[active] ?? '';
-  const activeIsAslology = aslologyMedia.has(activeToken.toLowerCase());
-  const activeReady = !activeIsAslology || !!loaded[active];
-
-  useEffect(() => {
-    if (tokens.length < 2) return;
-    const timer = setTimeout(() => setActive((a) => (a + 1) % tokens.length),activeReady ? 4500 : 8000);
-    return () => clearTimeout(timer);
-  }, [active, activeReady, sentenceKey]);
-
-  if (!tokens.length) return null;
-
-  return (
-    <div>
-      <div style={{ position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 16, overflow: 'hidden', background: 'rgba(0,0,0,0.04)' }}>
-        {tokens.map((t, i) => {
-          const lower = t.toLowerCase();
-          const local = mediaByWord.get(lower);
-          return (
-            <div
-              key={sentenceKey + '-' + i}
-              style={{ position: 'absolute', inset: 0, opacity: i === active ? 1 : 0, transition: 'opacity 0.35s', pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              {aslologyMedia.has(lower) ? (
-                <iframe
-                  title={'ASL sign for ' + t}
-                  src={'https://videopress.com/embed/' + aslologyMedia.get(lower) + '?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1&hd=0&preloadContent=auto'}
-                  onLoad={() => setLoaded((l) => ({ ...l, [i]: true }))}
-                  style={{ width: '100%', height: '100%', border: 0, transform: 'scale(1.3)', transformOrigin: 'center', pointerEvents: 'none' }}
-                  allow="autoplay; fullscreen"
-                />
-              ) : (
-                <SignedWord word={t} mediaUrl={local?.url} mediaType={local?.type} />
-              )}
-            </div>
-          );
-        })}
-      </div>
-      {activeIsAslology && (
-        <div style={{ fontSize: '0.7rem', opacity: 0.75, textAlign: 'center', marginTop: 6 }}>
+      {aslologyId && (
+        <div
+          style={{
+            fontSize: '0.7rem',
+            opacity: 0.75,
+            textAlign: 'center',
+            marginTop: 6,
+          }}
+        >
           Sign video by Garrett Bose of{' '}
-          <a href="https://aslology.com" target="_blank" rel="noopener noreferrer">ASLology</a>
+          <a
+            href="https://aslology.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ASLology
+          </a>
         </div>
       )}
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', marginTop: 12 }}>
+
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          marginTop: 12,
+        }}
+      >
         {tokens.map((t, i) => (
           <button
-            key={t + '-' + i}
+            key={`${t}-${i}`}
             type="button"
-            onClick={() => setActive(i)}
-            style={{ fontWeight: i === active ? 700 : 400, opacity: i === active ? 1 : 0.6, background: 'none', border: 0, cursor: 'pointer', textTransform: 'uppercase' }}
+            onClick={() => {
+              setActive(i);
+              setPlayerKey((key) => key + 1);
+            }}
+            style={{
+              fontWeight: i === active ? 700 : 400,
+              opacity: i === active ? 1 : 0.6,
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+            }}
           >
             {t}
           </button>
