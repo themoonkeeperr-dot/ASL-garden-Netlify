@@ -429,6 +429,7 @@ function translateToASLGloss(input: string) {
   if (wh.length) kept = [...kept, ...wh];
   const gloss = kept.map((token) => token.toUpperCase()).join(' ');
   return { gloss, tokens: kept };
+  }
   const aslologyMedia = new Map<string, string>([
   ['hi', 'hXG4CXZH'], ['hello', 'hXG4CXZH'],
   ['sign', '3z9FS3KT'], ['name', 'oYOZ10hU'], ['what', 'eTxytJM8'],
@@ -456,7 +457,6 @@ function AslologySign({ word }: { word: string }) {
       <span>{word}</span>
     </div>
   );
-}
 }
 
 function LookupPage({ words }: { words: Word[] }) {
