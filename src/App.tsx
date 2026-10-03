@@ -459,6 +459,29 @@ function AslologySign({ word }: { word: string }) {
   );
 }
 
+function AslologyClip({ word }: { word: string }) {
+  const id = aslologyMedia.get(word.toLowerCase());
+  const [ready, setReady] = useState(false);
+  return (
+    <div style={{ width: '100%', textAlign: 'center' }}>
+      <div style={{ width: '100%', aspectRatio: '16 / 9', borderRadius: 16, overflow: 'hidden', background: 'rgba(0,0,0,0.04)' }}>
+        <iframe
+          title={'ASL sign for ' + word}
+          src={'https://videopress.com/embed/' + id + '?autoPlay=1&loop=1&muted=1&controls=0&playsinline=1'}
+          onLoad={() => setReady(true)}
+          style={{ width: '100%', height: '100%', border: 0, opacity: ready ? 1 : 0, transition: 'opacity 0.4s', transform: 'scale(1.3)', transformOrigin: 'center', pointerEvents: 'none' }}
+          allow="autoplay; fullscreen"
+        />
+      </div>
+      <div style={{ fontSize: '0.7rem', opacity: 0.75, marginTop: 6 }}>
+        Sign video by Garrett Bose of{' '}
+        <a href="https://aslology.com" target="_blank" rel="noopener noreferrer">ASLology</a>
+      </div>
+      <div style={{ fontSize: '1.1rem', marginTop: 4 }}>{word}</div>
+    </div>
+  );
+}
+
 function SentencePlayer({
   tokens,
   mediaByWord,
@@ -475,7 +498,7 @@ function SentencePlayer({
 
   useEffect(() => {
     if (tokens.length < 2) return;
-    const timer = setTimeout(() => setActive((a) => (a + 1) % tokens.length), 3000);
+    const timer = setTimeout(() => setActive((a) => (a + 1) % tokens.length), 5000);
     return () => clearTimeout(timer);
   }, [active, sentenceKey]);
 
@@ -488,7 +511,7 @@ function SentencePlayer({
   return (
     <div>
       {aslologyMedia.has(lower) ? (
-        <AslologySign key={active + '-' + token} word={token} />
+        <AslologyClip key={active + '-' + token} word={token} />
       ) : (
         <SignedWord key={active + '-' + token} word={token} mediaUrl={local?.url} mediaType={local?.type} />
       )}
@@ -526,7 +549,7 @@ const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token
         </form>
         {submitted ? <section className="translator-result translator-sentence-result">
           <div><div className="section-kicker">ASL-style gloss</div><h2>{translation.gloss || 'No words to show'}</h2><p className="result-note">ASL has its own grammar, so this is a learning aid rather than a perfect automatic translation.</p></div>
-          <SentencePlayer tokens={visibleTokens} mediaByWord={mediaByWord} /><div className="translated-word-grid">{([] as string[]).map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token + '-' + index} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
+          <div style={{ maxWidth: 460, margin: '0 auto' }}><SentencePlayer tokens={visibleTokens} mediaByWord={mediaByWord} /></div><div className="translated-word-grid">{([] as string[]).map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token + '-' + index} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
           {!visibleTokens.length && <p className="result-note">No verified visual sign is available for the entered words yet.</p>}
         </section> : <div className="search-welcome"><div className="translator-welcome-art">ASL</div><div><h2>What do you want to say?</h2><p>Type any English sentence and the page will turn it into a visual word-by-word learning sequence.</p></div></div>}
       </main>
