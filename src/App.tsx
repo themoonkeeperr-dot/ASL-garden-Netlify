@@ -477,7 +477,7 @@ const visibleTokens = translation.tokens.filter((token) => mediaByWord.has(token
         </form>
         {submitted ? <section className="translator-result translator-sentence-result">
           <div><div className="section-kicker">ASL-style gloss</div><h2>{translation.gloss || 'No words to show'}</h2><p className="result-note">ASL has its own grammar, so this is a learning aid rather than a perfect automatic translation.</p></div>
-          <div className="translated-word-grid">{visibleTokens.map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token minus{index}} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
+          <div className="translated-word-grid">{visibleTokens.map((token, index) => { if (aslologyMedia.has(token.toLowerCase())) return <AslologySign key={token + '-' + index} word={token} />; const local = mediaByWord.get(token.toLowerCase());return <SignedWord key={`${token}-${index}`} word={token} compact mediaUrl={local?.url} mediaType={local?.type} />; })}</div>
           {!visibleTokens.length && <p className="result-note">No verified visual sign is available for the entered words yet.</p>}
         </section> : <div className="search-welcome"><div className="translator-welcome-art">ASL</div><div><h2>What do you want to say?</h2><p>Type any English sentence and the page will turn it into a visual word-by-word learning sequence.</p></div></div>}
       </main>
