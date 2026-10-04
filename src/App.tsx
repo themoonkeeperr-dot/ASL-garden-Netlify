@@ -121,13 +121,21 @@ function Brand() {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [coursesOpen, setCoursesOpen] = useState(false);
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
-  const links = [
+  const courseLinks = [
+    { href: '/reference', label: 'Alphabet' },
+    { href: '/numbers', label: 'Numbers' },
+    { href: '/situations', label: 'Learn by situation' },
+    { href: '/word-banks', label: 'Word banks' },
+  ];
+  const links: { href: string; label: string; children?: { href: string; label: string }[] }[] = [
     { href: '/games', label: 'Games' },
     { href: '/lookup', label: 'Translator' },
-    { href: '/courses', label: 'Courses' },
+    { href: '/courses', label: 'Courses', children: courseLinks },
     { href: '/stories', label: 'Stories' },
+    { href: '/journal', label: 'Journal' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -137,7 +145,43 @@ function Header() {
       <div className="header-inner">
         <Brand />
         <nav className={`main-nav ${open ? 'open' : ''}`} aria-label="Main navigation">
-          {links.map((link) => (
+          {links.map((link) => link.children ? (
+            <div
+              key={link.href}
+              style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}
+              onMouseEnter={() => { if (!open) setCoursesOpen(true); }}
+              onMouseLeave={() => setCoursesOpen(false)}
+              onFocus={() => { if (!open) setCoursesOpen(true); }}
+              onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setCoursesOpen(false); }}
+            >
+              <Link
+                href={link.href}
+                className={`nav-link ${location === link.href || link.children.some((child) => child.href === location) ? 'active' : ''}`}
+                onClick={() => { setOpen(false); setCoursesOpen(false); }}
+              >
+                {link.label}
+              </Link>
+              {(coursesOpen || open) && (
+                <div
+                  style={open
+                    ? { display: 'flex', flexDirection: 'column', paddingLeft: 16 }
+                    : { position: 'absolute', top: '100%', left: 0, minWidth: 210, padding: 8, borderRadius: 12, background: 'Canvas', color: 'CanvasText', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 10px 28px rgba(0,0,0,0.18)', zIndex: 50, display: 'flex', flexDirection: 'column' }}
+                >
+                  {link.children.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      className="nav-link"
+                      style={open ? undefined : { color: 'CanvasText', padding: '8px 12px', whiteSpace: 'nowrap' }}
+                      onClick={() => { setOpen(false); setCoursesOpen(false); }}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
             <Link
               key={link.href}
               href={link.href}
@@ -315,11 +359,196 @@ function HomePage() {
             <Link href="/games" className="path-card path-card-blue"><CircleHelp size={30} /><span>Playful practice</span><h3>Games & quizzes</h3><p>Match, remember, and try again without pressure.</p><ArrowRight className="path-arrow" /></Link>
             <Link href="/lookup" className="path-card path-card-pink"><Search size={30} /><span>Find a sign</span><h3>Word translator</h3><p>Search a word and see its visual sign guide first.</p><ArrowRight className="path-arrow" /></Link>
             <Link href="/reference" className="path-card path-card-yellow"><BookOpen size={30} /><span>Turn the page</span><h3>Alphabet book</h3><p>Letters, signs, and the objects that bring them to life.</p><ArrowRight className="path-arrow" /></Link>
-            <Link href="/fruits-vegetables" className="path-card path-card-green"><Carrot size={30} /><span>Fresh from the garden</span><h3>Fruits & vegetables</h3><p>Practice signs for favorite foods with a visual-first guide.</p><ArrowRight className="path-arrow" /></Link>
+            <Link href="/courses" className="path-card path-card-green"><Leaf size={30} /><span>Learn step by step</span><h3>Courses</h3><p>Alphabet, numbers, situations, and word banks in one place.</p><ArrowRight className="path-arrow" /></Link>
             
           </div>
         </div>
       </section>
+    </>
+  );
+}
+
+const lessons = [
+  { id: 'meeting', title: 'Meeting someone', blurb: 'Say hello, share your name, and talk about friends and family.', words: ['hello', 'my', 'name', 'your', 'friend', 'meet', 'welcome', 'family', 'fine', 'ask'] },
+  { id: 'restaurant', title: 'At the restaurant', blurb: 'Order food and drinks and ask for what you need.', words: ['restaurant', 'eat', 'want', 'water', 'drink', 'coffee', 'pizza', 'salad', 'fork', 'spoon', 'plate', 'help'] },
+  { id: 'family', title: 'My family', blurb: 'Learn the signs for the people in your family.', words: ['mother', 'father', 'sister', 'brother', 'grandma', 'grandpa', 'son', 'daughter', 'husband', 'wife', 'cousin', 'parents'] },
+  { id: 'day', title: 'My day', blurb: 'Talk about when things happen and where you go.', words: ['morning', 'today', 'tomorrow', 'yesterday', 'work', 'school', 'home', 'breakfast', 'lunch', 'dinner', 'go', 'come'] },
+  { id: 'school', title: 'At school', blurb: 'Signs for classes, learning, and homework.', words: ['class', 'teacher', 'student', 'book', 'homework', 'test', 'learn', 'read', 'write', 'understand', 'easy', 'hard'] },
+  { id: 'health', title: 'Not feeling well', blurb: 'Say what hurts and ask for help.', words: ['sick', 'headache', 'cough', 'dizzy', 'medicine', 'help', 'head', 'heart', 'hand', 'leg', 'rest', 'allergy'] },
+  { id: 'freetime', title: 'Free time', blurb: 'Talk about hobbies and things you enjoy.', words: ['movie', 'hike', 'walk', 'exercise', 'game', 'play', 'soccer', 'travel', 'love', 'like', 'favorite', 'watch'] },
+  { id: 'celebrations', title: 'Celebrations', blurb: 'Birthdays, parties, and holidays.', words: ['birthday', 'party', 'gift', 'wedding', 'celebrate', 'surprise', 'invite', 'decorate', 'christmas', 'halloween', 'fireworks'] },
+];
+
+const topics = [
+  { id: 'family-all', title: 'Family', blurb: 'Every family sign in one place.', words: ['sister', 'brother', 'sibling', 'parents', 'mother', 'father', 'grandma', 'grandpa', 'girl', 'boy', 'son', 'daughter', 'husband', 'wife', 'uncle', 'aunt', 'nephew', 'niece', 'cousin', 'child', 'adopt', 'children', 'old', 'young', 'partner', 'relative'] },
+  { id: 'food-all', title: 'Food', blurb: 'Meals, drinks, and favorite dishes.', words: ['water', 'breakfast', 'lunch', 'dinner', 'coffee', 'drink', 'bread', 'egg', 'cheese', 'taco', 'chicken', 'fruit', 'vegetable', 'meat', 'burrito', 'pasta', 'pizza', 'salad', 'burger', 'fries', 'sandwich', 'sushi'] },
+  { id: 'kitchen', title: 'Kitchen', blurb: 'Tools and things in the kitchen.', words: ['bake', 'taste', 'fork', 'spoon', 'knife', 'chopsticks', 'bowl', 'plate', 'napkin', 'straw', 'blender', 'freezer', 'toast', 'juice', 'sauce', 'ice', 'soda', 'tea', 'glass'] },
+  { id: 'animals', title: 'Animals', blurb: 'Pets and wild animals.', words: ['animal', 'pet', 'dog', 'cat', 'bird', 'bear', 'bug', 'butterfly', 'cow', 'deer', 'dolphin', 'fish', 'horse', 'lion', 'monkey', 'mouse', 'pig', 'snake', 'spider', 'turtle'] },
+  { id: 'people', title: 'People', blurb: 'Words for people and groups.', words: ['people', 'person', 'friend', 'family', 'roommate', 'man', 'woman', 'any', 'anyone', 'someone', 'several', 'all', 'other', 'many', 'some', 'nobody', 'have', 'deaf', 'hearing'] },
+  { id: 'body-health', title: 'Body and health', blurb: 'Body parts and health words.', words: ['health', 'medicine', 'headache', 'allergy', 'break', 'sick', 'nausea', 'help', 'protect', 'rest', 'try', 'cough', 'dizzy', 'bone', 'body', 'head', 'heart', 'hand', 'leg', 'feet'] },
+  { id: 'sports', title: 'Sports', blurb: 'Sports, teams, and games.', words: ['sport', 'ball', 'baseball', 'basketball', 'cheerleading', 'football', 'hockey', 'soccer', 'tennis', 'track', 'volleyball', 'practice', 'game', 'team', 'win', 'lose', 'play', 'player', 'race', 'ready'] },
+  { id: 'time-all', title: 'Time', blurb: 'Days, months, and when things happen.', words: ['time', 'morning', 'everyday', 'night', 'today', 'tomorrow', 'yesterday', 'week', 'weekend', 'month', 'year', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'again', 'never', 'often', 'usually', 'sometimes', 'soon', 'next', 'last', 'later'] },
+  { id: 'school-all', title: 'School', blurb: 'Learning and school life.', words: ['class', 'college', 'test', 'hard', 'easy', 'graduate', 'homework', 'book', 'teacher', 'student', 'spell', 'teach', 'understand', 'learn', 'know', 'write', 'read', 'remember', 'think', 'forget'] },
+  { id: 'digital', title: 'Phones and computers', blurb: 'Technology and messages.', words: ['computer', 'laptop', 'internet', 'wifi', 'phone', 'battery', 'email', 'message', 'camera', 'picture', 'flash', 'filming', 'edit', 'post', 'delete', 'send', 'texting', 'google'] },
+  { id: 'holidays-all', title: 'Holidays', blurb: 'Celebrations through the year.', words: ['holiday', 'plan', 'surprise', 'party', 'decorate', 'gift', 'birthday', 'invite', 'host', 'wedding', 'celebrate', 'fireworks', 'halloween', 'costume', 'thanksgiving', 'christmas', 'cancel'] },
+  { id: 'leisure', title: 'Hobbies and feelings', blurb: 'What you enjoy and how you feel.', words: ['enjoy', 'talk', 'cook', 'exercise', 'hike', 'walk', 'love', 'movie', 'can', 'socialize', 'travel', 'like', 'watch', 'ask', 'feel', 'fine', 'want', 'say', 'favorite', 'not'] },
+  { id: 'places', title: 'Places and getting around', blurb: 'Where you go and how you get there.', words: ['go', 'leave', 'attend', 'come', 'drive', 'deliver', 'live', 'work', 'eat', 'home', 'house', 'store', 'restaurant', 'school', 'dorm', 'meet', 'need', 'far', 'near', 'here'] },
+];
+
+function LessonPage({ id }: { id: string }) {
+  const lesson = [...lessons, ...topics].find((item) => item.id === id);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    setActive(0);
+  }, [id]);
+
+  if (!lesson) {
+    return (
+      <main className="page-wrap page-content">
+        <p>Lesson not found.</p>
+        <Link href="/courses">Back to courses</Link>
+      </main>
+    );
+  }
+
+  const count = lesson.words.length;
+  const word = lesson.words[active];
+  const isSituation = lessons.some((item) => item.id === id);
+
+  return (
+    <>
+      <PageIntro eyebrow={isSituation ? 'Learn by situation' : 'Word bank'} title={lesson.title} copy={lesson.blurb} />
+      <main className="page-wrap page-content">
+        <div style={{ maxWidth: 460, margin: '0 auto' }}>
+          <AslologyClip key={word} word={word} />
+          <p style={{ textAlign: 'center', fontSize: '0.8rem', opacity: 0.7, marginTop: 6 }}>{active + 1} of {count}</p>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 12 }}>
+            <button type="button" className="button-primary" onClick={() => setActive((value) => (value - 1 + count) % count)}>Previous</button>
+            <button type="button" className="button-primary" onClick={() => setActive((value) => (value + 1) % count)}>Next</button>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center', marginTop: 20 }}>
+            {lesson.words.map((w, i) => (
+              <button
+                key={w}
+                type="button"
+                onClick={() => setActive(i)}
+                style={{ padding: '6px 12px', borderRadius: 999, border: '1px solid currentColor', background: 'none', color: 'inherit', cursor: 'pointer', fontWeight: i === active ? 700 : 400, opacity: i === active ? 1 : 0.6, textTransform: 'capitalize' }}
+              >
+                {w}
+              </button>
+            ))}
+          </div>
+          <p style={{ textAlign: 'center', marginTop: 24 }}>
+            <Link href={isSituation ? '/situations' : '/word-banks'}>Back to {isSituation ? 'situations' : 'word banks'}</Link>
+          </p>
+        </div>
+      </main>
+    </>
+  );
+}
+
+function SituationsPage() {
+  return (
+    <>
+      <PageIntro eyebrow="Learn by situation" title="Pick a situation." copy="Learn the signs you would use in real moments." />
+      <main className="page-wrap page-content">
+        <div className="path-grid">
+          {lessons.map((lesson, i) => (
+            <Link key={lesson.id} href={'/lesson/' + lesson.id} className="path-card path-card-pink">
+              <BookOpen size={30} />
+              <span>Situation {i + 1}</span>
+              <h3>{lesson.title}</h3>
+              <p>{lesson.blurb}</p>
+              <ArrowRight className="path-arrow" />
+            </Link>
+          ))}
+        </div>
+        <p style={{ marginTop: 24 }}><Link href="/courses">Back to courses</Link></p>
+      </main>
+    </>
+  );
+}
+
+function WordBanksPage() {
+  return (
+    <>
+      <PageIntro eyebrow="Word banks" title="Choose a topic." copy="Pick the group of signs you want to learn." />
+      <main className="page-wrap page-content">
+        <div className="path-grid">
+          {topics.map((topic) => (
+            <Link key={topic.id} href={'/lesson/' + topic.id} className="path-card path-card-green">
+              <FileText size={30} />
+              <span>{topic.words.length} signs</span>
+              <h3>{topic.title}</h3>
+              <p>{topic.blurb}</p>
+              <ArrowRight className="path-arrow" />
+            </Link>
+          ))}
+        </div>
+        <p style={{ marginTop: 24 }}><Link href="/courses">Back to courses</Link></p>
+      </main>
+    </>
+  );
+}
+
+// ASL Journal: add new articles at the top of this list.
+// Each paragraph is one line inside double quotes. Do not use straight double quotes inside the text.
+const journalArticles = [
+  {
+    id: 'welcome',
+    title: 'Welcome to the ASL Journal',
+    date: 'October 2026',
+    summary: 'A first note from ASL Garden.',
+    paragraphs: [
+      "Welcome to the ASL Journal. This is where we share notes about learning American Sign Language.",
+      "Check back soon for new articles.",
+    ],
+  },
+];
+
+function JournalPage() {
+  return (
+    <>
+      <PageIntro eyebrow="ASL Journal" title="Notes from the garden." copy="Articles about learning and understanding American Sign Language." />
+      <main className="page-wrap page-content">
+        <div className="path-grid">
+          {journalArticles.map((article) => (
+            <Link key={article.id} href={'/journal/' + article.id} className="path-card path-card-yellow">
+              <BookOpen size={30} />
+              <span>{article.date}</span>
+              <h3>{article.title}</h3>
+              <p>{article.summary}</p>
+              <ArrowRight className="path-arrow" />
+            </Link>
+          ))}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function JournalArticlePage({ id }: { id: string }) {
+  const article = journalArticles.find((item) => item.id === id);
+  if (!article) {
+    return (
+      <main className="page-wrap page-content">
+        <p>Article not found.</p>
+        <Link href="/journal">Back to the journal</Link>
+      </main>
+    );
+  }
+  return (
+    <>
+      <PageIntro eyebrow={article.date} title={article.title} copy={article.summary} />
+      <main className="page-wrap page-content">
+        <article style={{ maxWidth: 680, margin: '0 auto' }}>
+          {article.paragraphs.map((paragraph, i) => (
+            <p key={i} style={{ marginBottom: 16, lineHeight: 1.7 }}>{paragraph}</p>
+          ))}
+          <p style={{ marginTop: 32 }}><Link href="/journal">Back to the journal</Link></p>
+        </article>
+      </main>
     </>
   );
 }
@@ -350,11 +579,19 @@ function CoursesPage() {
             <ArrowRight className="path-arrow" />
           </Link>
 
-          <Link href="/fruits-vegetables" className="path-card path-card-green">
-            <Carrot size={30} />
+          <Link href="/situations" className="path-card path-card-pink">
+            <BookOpen size={30} />
             <span>Course 03</span>
-            <h3>Food</h3>
-            <p>Explore food, fruit, and vegetable signs with visual practice.</p>
+            <h3>Learn by situation</h3>
+            <p>Practice the signs you need at a restaurant, at school, with family, and more.</p>
+            <ArrowRight className="path-arrow" />
+          </Link>
+
+          <Link href="/word-banks" className="path-card path-card-green">
+            <FileText size={30} />
+            <span>Course 04</span>
+            <h3>Word banks</h3>
+            <p>Choose a topic, like animals, food, or time, and learn its signs.</p>
             <ArrowRight className="path-arrow" />
           </Link>
         </div>
@@ -430,11 +667,135 @@ function translateToASLGloss(input: string) {
   const gloss = kept.map((token) => token.toUpperCase()).join(' ');
   return { gloss, tokens: kept };
   }
-  const aslologyMedia = new Map<string, string>([
+const aslologyMedia = new Map<string, string>([
+  // Greeting
   ['hi', 'hXG4CXZH'], ['hello', 'hXG4CXZH'],
   ['sign', '3z9FS3KT'], ['name', 'oYOZ10hU'], ['what', 'eTxytJM8'],
   ['you', 'C0M4CTr5'], ['your', 'ur9xlY4r'],
   ['i', 'kAFnWdCp'], ['me', 'kAFnWdCp'], ['my', 'BphfjXXz'],
+
+  // Sports
+  ['sport', 'C1kzmLNX'], ['ball', 'I7piwZg7'], ['baseball', 'cyK1OHwt'], ['basketball', 'rdh29JGe'],
+  ['cheerleading', 'bczwbkOP'], ['football', 'HtW6eNHT'], ['hockey', '7hD31stP'], ['soccer', 'nOgu0rJf'],
+  ['tennis', '8eDPpA9o'], ['track', 'YV08MfUx'], ['volleyball', 'kJdWxf0u'], ['practice', 'LIuU5FaT'],
+  ['game', 'md9lUwAU'], ['team', '9dpu6nWG'], ['equal', 'ml7NRXOQ'], ['tie', 'ml7NRXOQ'],
+  ['win', 'zO9jPKUR'], ['lose', 'oA7QAUaA'], ['play', 'm2sHHTZv'], ['player', 'bKJckDOd'],
+  ['race', '7LwJ3hxO'], ['contest', '7LwJ3hxO'], ['ready', 'F7tzb0Fy'],
+
+  // Health
+  ['health', 'NK253bDZ'], ['heal', 'NK253bDZ'], ['recover', 'NK253bDZ'],
+  ['medicine', 'Cf5NDYzu'], ['medical', 'Cf5NDYzu'], ['headache', '0IUaX8bb'], ['allergy', 'oLGudwiM'],
+  ['break', '95bzUsVp'], ['broken', '95bzUsVp'], ['sick', '9HbIhVJi'],
+  ['nausea', 'z4I14ChP'], ['disgust', 'z4I14ChP'], ['help', 'XwpuXOHz'],
+  ['protect', 'djBUX4X9'], ['block', 'djBUX4X9'], ['prevent', 'djBUX4X9'],
+  ['rest', 'CB6bVgNL'], ['try', 'YNdNleoF'], ['attempt', 'YNdNleoF'], ['cough', 'LvI3Y61R'],
+  ['dizzy', 'OXJNiifL'], ['bone', 'ibG8AS2W'], ['skeleton', 'ibG8AS2W'], ['body', 'PqK8Ei8W'],
+  ['head', 'BpqJPmmb'], ['heart', 'XRmgJttw'], ['hand', 'YwqpPW81'], ['leg', 'NVqqxUXr'],
+  ['feet', 'PNaGWRsJ'], ['foot', 'PNaGWRsJ'],
+
+  // Holiday
+  ['holiday', 'YyrdpCZP'], ['plan', 'z2cvybL1'], ['surprise', 'i7rTYWs3'], ['party', 'nZh5z0SV'],
+  ['decorate', 'ySbOHh2Y'], ['present', 'zctpuVMX'], ['gift', 'zctpuVMX'], ['birthday', 'jqHe3fxi'],
+  ['invite', 'Y5EJbh3j'], ['welcome', 'Y5EJbh3j'], ['host', 'GSVaFbdi'],
+  ['proposal', 'ZwPLSwtt'], ['propose', 'ZwPLSwtt'], ['wedding', '8IneZ11H'],
+  ['celebrate', 'hm28ygYR'], ['anniversary', 'hm28ygYR'], ['fireworks', 'gbl7W3Sn'],
+  ['halloween', 'pXAguEjJ'], ['costume', 'DM5O4PR2'], ['thanksgiving', 'ZY4IEVGA'],
+  ['christmas', 'HuHKL3B2'], ['cancel', 'eg9L4GUb'],
+
+  // Cooking
+  ['bake', 'mfkILUs1'], ['taste', '7mylAGSj'], ['fork', 'MXOgrpgM'], ['spoon', 'ZmYvpt1U'],
+  ['knife', '7f0qiZXr'], ['chopsticks', 'eiqztwF8'], ['bowl', 'iGWBTxDj'], ['plate', 'tm5fqWXy'],
+  ['napkin', 'zMc43FNT'], ['straw', 'PifD4bqG'], ['blender', 'dgQugFqj'], ['freezer', 'sTCSLBXj'],
+  ['toast', 'BO6rPthF'], ['juice', 'W7JFfcnJ'],
+  ['sauce', 'KDgU4Axe'], ['dressing', 'KDgU4Axe'], ['syrup', 'KDgU4Axe'],
+  ['ice', 'oYXxuGaP'], ['soda', 'ep7uVEUg'], ['tea', 'GFGeIBqR'], ['glass', 'bz4BOGgZ'],
+
+  // Animals
+  ['animal', 'ayXQ0Gwi'], ['pet', 'Ovjn8sOg'], ['dog', 'T6Djh8Pa'], ['cat', 'ZrnJyog2'],
+  ['bird', '82wIK4Rp'], ['bear', 'o39hNDLo'], ['bug', '94Zc3IRu'], ['butterfly', 'NoOMPVAU'],
+  ['cow', 'jNOqWAiY'], ['deer', 'QCPFCunX'], ['dolphin', 'Pzv449Xw'], ['fish', 'xQQiQD3P'],
+  ['horse', 'GId0YvHE'], ['lion', 'Ly92WBfx'], ['monkey', 'rc2J76yM'], ['ape', 'rc2J76yM'],
+  ['mouse', 'lmhVw0Jr'], ['pig', '0EGW0p9y'], ['snake', '3JzHniMC'], ['spider', 'Bub4TpwI'],
+  ['turtle', 'VbbrhBO4'],
+
+  // People
+  ['people', 'ylWD3mFW'], ['person', 'VyEDlmBp'], ['friend', 'qLJJwx6O'], ['family', 'ijVGOrF8'],
+  ['roommate', 'qr249a1Y'], ['man', '66RpPYsq'], ['woman', 'eHicRJnD'], ['any', 'meN0smve'],
+  ['anyone', 'G5TvmM09'], ['someone', 'NjQRWsZJ'], ['something', 'NjQRWsZJ'],
+  ['several', 'xgzkZx39'], ['few', 'xgzkZx39'],
+  ['all', 'z7MpkfHp'], ['whole', 'z7MpkfHp'], ['entire', 'z7MpkfHp'],
+  ['other', 'zd2X5ruo'], ['another', 'zd2X5ruo'], ['many', 'hHaWhBVr'], ['some', 'AKYspFkn'],
+  ['nobody', '1M8cE77C'], ['nothing', '1M8cE77C'], ['none', '1M8cE77C'],
+  ['have', '5m1zicdn'], ['contain', '5m1zicdn'], ['deaf', 'o2IzxG0T'], ['hearing', 'lqVAuR4A'],
+
+  // Leisure
+  ['enjoy', 'nkiTWV1O'], ['hobby', 'nkiTWV1O'], ['talk', 'IcvjOPGp'], ['conversation', 'IcvjOPGp'],
+  ['cook', 'N65FN8uz'], ['exercise', '6pzgbCKg'], ['fitness', '6pzgbCKg'], ['workout', '6pzgbCKg'],
+  ['hike', 'ncZi09s9'], ['walk', 'L98OZdHB'], ['love', '1ktZZRig'], ['movie', '4zU3YmYT'],
+  ['can', '7lbeKHOQ'], ['socialize', 'a7Orzbyu'], ['travel', 'mMwdHDop'], ['like', 'H3M9vyJ2'],
+  ['watch', 'H7OFjz4d'], ['ask', 'xCBfGEnM'], ['feel', '9Rre9jpQ'], ['fine', 'pA5wTR0g'],
+  ['want', 'ryOGDUio'], ['say', 'QrAMsPe9'], ['favorite', 'r4Fq1Qjy'], ['prefer', 'r4Fq1Qjy'],
+  ['not', 'mUIlDcOw'], ["don't", 'mUIlDcOw'],
+
+  // Time
+  ['time', 'SEgmGXeT'], ['morning', 'oMY6fIOd'], ['everyday', 'c4hGiyaD'], ['daily', 'c4hGiyaD'],
+  ['night', 'L1obGxJm'], ['today', 'eQNjldDQ'], ['tomorrow', 'UwiJQokW'], ['yesterday', 'c2hm3m1z'],
+  ['week', 'fzsHzTmi'], ['weekend', '2VarxIL2'], ['month', 'bHwpU86q'], ['year', 'w0r9FSKR'],
+  ['monday', 'EgqXFhOC'], ['tuesday', 'aMRfyIsy'], ['wednesday', 'lrLokURR'], ['thursday', '1j5mDSDu'],
+  ['friday', 'WmqRlIBW'], ['saturday', 'ncmOyFEi'], ['sunday', 'PY7Aa1n2'],
+  ['again', 'jxhIYDHa'], ['never', 'j9pI6BLE'], ['often', 'DlsnkTGB'],
+  ['usually', 'dmQ8M7RZ'], ['tend', 'dmQ8M7RZ'], ['typical', 'dmQ8M7RZ'],
+  ['sometime', 'OHHmSRcc'], ['sometimes', 'OHHmSRcc'], ['soon', 'fWLbmvZN'], ['next', 'yD8YU587'],
+  ['last', '2LsLB9eQ'], ['past', '2LsLB9eQ'], ['later', 'WNTeudC1'],
+
+  // Digital communication
+  ['computer', '72HN7JQZ'], ['laptop', 'gUemobF8'],
+  ['internet', 'iHJOxjaT'], ['online', 'iHJOxjaT'], ['website', 'iHJOxjaT'],
+  ['wifi', 'wFwmdqSt'], ['phone', 'aPHCc6J0'], ['battery', 'UeapH9UV'], ['charge', 'UeapH9UV'],
+  ['email', 'o47zgwtu'], ['message', 'gYXiL58U'], ['camera', 'wr8hbBvx'], ['picture', 'GRS5zcDK'],
+  ['flash', 'MQwL71vm'], ['filming', 'B9aWyAZp'], ['recording', 'B9aWyAZp'],
+  ['edit', 'qYtHwb6H'], ['editing', 'qYtHwb6H'], ['post', 'h8VcIkIf'], ['poster', 'h8VcIkIf'],
+  ['delete', 'mIlysdqf'], ['eliminate', 'mIlysdqf'], ['send', 'gahKB5CY'],
+  ['texting', 'iu41ypmm'], ['google', 'dSfW9eq7'],
+
+  // School
+  ['class', 'hW2LfJEf'], ['course', 'hW2LfJEf'], ['college', 'urOgPwDk'],
+  ['test', '3vgSJHKT'], ['exam', '3vgSJHKT'], ['hard', 'rA57uYeV'], ['difficult', 'rA57uYeV'],
+  ['easy', 'q9A1rfg5'], ['graduate', 'hHUxWLyl'], ['graduation', 'hHUxWLyl'],
+  ['homework', 'wBsFrXIi'], ['book', 'tDw7LQFc'], ['teacher', 'neVzl5bf'], ['student', 'PCoQnRZa'],
+  ['spell', 'SDtr8YGS'], ['fingerspelling', 'SDtr8YGS'], ['teach', 'qvKO8S4V'], ['educate', 'qvKO8S4V'],
+  ['understand', 'MImyziej'], ['learn', 'BDeIey8e'], ['know', '2CNhIRf4'], ['aware', '2CNhIRf4'],
+  ['write', 'ANR68qha'], ['read', 'AW7v2gI4'], ['remember', '3ndspFjs'], ['think', 'jTfukcwG'],
+  ['forget', 'mcXo8AK0'],
+
+  // Food
+  ['water', 'j9z8zMNH'], ['breakfast', 'rnaEFGGS'], ['lunch', 'XQdlc4xs'], ['dinner', '1rHShRHN'],
+  ['coffee', 'DAsrKhrH'], ['drink', 'hkdLT2mO'], ['bread', 'uDtqAIaL'], ['egg', 'qIjCOH5a'],
+  ['cheese', 'ItfgOCTF'], ['taco', 'OgosX324'], ['chicken', 'g5CW8h5t'], ['fruit', 'UbQuk0Mt'],
+  ['vegetable', 'RfYDjVJC'], ['meat', 'azqfi6WC'], ['burrito', '4tkjA2Wz'],
+  ['pasta', 'XDFA219V'], ['spaghetti', 'XDFA219V'], ['pizza', 'c9EtWzsG'], ['salad', 'BaKLLATS'],
+  ['burger', '3XrFsWjK'], ['fries', 'WQ4aLkyR'], ['sandwich', 'DnFczqti'], ['sushi', '9FXDAPjb'],
+
+  // Family
+  ['sister', 'iONuYZxB'], ['brother', 'TBtkpw8d'], ['sibling', 'q27xUb3L'], ['parents', 'cCoif7YC'],
+  ['mother', 'ejSCv9cr'], ['father', 'jjZDBr05'], ['grandma', '6Ww9WGzV'], ['grandpa', 'M1USA9GY'],
+  ['girl', '4El9ElvK'], ['boy', 'G4BXsq4k'], ['son', 'hdZJpibi'], ['daughter', 'oO5EWw90'],
+  ['husband', 'KJyIHLjJ'], ['wife', 'WkS719fV'], ['uncle', 'FVAc2yvl'], ['aunt', '0FaUknok'],
+  ['nephew', 'WbENMyfX'], ['niece', 'DsAxxu38'], ['cousin', 'yfvUPuTu'], ['child', 'bRdAArWk'],
+  ['adopt', 'NUw8GHIe'], ['children', 'RWzmb2Kj'], ['old', 'fQVrNVc5'],
+  ['young', 'VfNAOoH8'], ['youth', 'VfNAOoH8'], ['partner', '2VIuZOTL'], ['relative', '4KnFjek6'],
+  ['side', 'UFPFBpM3'],
+
+  // Commuting
+  ['go', 'zJmzYCq4'], ['leave', 'eFteqxaN'], ['attend', '5mQ8OhYH'], ['come', 'vuUFQmtU'],
+  ['drive', 'gMfP99E6'], ['deliver', 'XyuHOCE7'], ['live', 'qJdE7tt8'],
+  ['work', 'NnUx8Dbd'], ['job', 'NnUx8Dbd'],
+  ['eat', '8rGJGMDZ'], ['food', '8rGJGMDZ'], ['grocery', '8rGJGMDZ'],
+  ['home', 'pTsAgz1J'], ['house', '5220dLxD'], ['store', 'rM2HjenP'], ['restaurant', 'EONScYUu'],
+  ['school', '67PoDAvC'], ['dorm', 'IfpZtisl'], ['meet', 'BZYcwxf2'],
+  ['need', 'J7ShFoHK'], ['should', 'J7ShFoHK'],
+  ['far', 'WHdqP8C9'], ['distance', 'WHdqP8C9'], ['near', 'QT2WIuNG'], ['close', 'QT2WIuNG'],
+  ['here', 'ZHrIoKQg'],
 ]);
 
 function AslologySign({ word }: { word: string }) {
@@ -950,8 +1311,8 @@ function AboutPage() {
             <h3>About the ASL videos</h3>
 
             <p>
-              Some visual ASL videos used in the Translator are provided by
-              Garrett Bose of ASLology with permission.
+              Many of the ASL videos in the Translator and in the Courses are
+              provided by Garrett Bose of ASLology with permission.
             </p>
 
             <p>
@@ -961,7 +1322,7 @@ function AboutPage() {
 
             <p>
               <a
-                href="https://asllology.com/"
+                href="https://aslology.com/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -1018,9 +1379,16 @@ function AboutPage() {
 
             <p>
               <strong>
-                ASL videos in the Translator: Garrett Bose of ASLology —
-                used with permission.
+                ASL videos in the Translator and Courses: Garrett Bose of
+                ASLology — used with permission.
               </strong>
+            </p>
+
+            <p>
+              Some sign videos are courtesy of{' '}
+              <a href="https://aslsignbank.com" target="_blank" rel="noopener noreferrer">ASL Signbank</a>{' '}
+              (Hochgesang, Crasborn &amp; Lillo-Martin), used under{' '}
+              <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a>.
             </p>
           </article>
         </div>
@@ -1191,10 +1559,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="page-wrap">
-        <p>© 2026 ASL Garden. All rights reserved.</p>
-  <p>
-  <Link to="/about">Credits</Link>
-</p>
+        <p>© 2026 ASL Garden. All rights reserved. <Link href="/about">Credits</Link></p>
       </div>
     </footer>
   );
@@ -1206,6 +1571,11 @@ function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
       <Switch>
         <Route path="/" component={HomePage} />
         <Route path="/courses" component={CoursesPage} />
+        <Route path="/situations" component={SituationsPage} />
+        <Route path="/word-banks" component={WordBanksPage} />
+        <Route path="/lesson/:id">{(params) => <LessonPage id={params.id} />}</Route>
+        <Route path="/journal" component={JournalPage} />
+        <Route path="/journal/:id">{(params) => <JournalArticlePage id={params.id} />}</Route>
         <Route path="/conversation">{() => <ConversationPage conversations={data.conversations} />}</Route>
         <Route path="/games">{() => <GamesPage words={data.words} />}</Route>
         <Route path="/lookup">{() => <LookupPage words={data.words} />}</Route>
