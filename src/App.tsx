@@ -1191,7 +1191,186 @@ function StoryLine({ text }: { text: string }) {
   return <div className="story-word-line">{tokens.filter((token) => !/^[.,!?]$/.test(token)).map((token, index) => <StoryWord word={token} key={`${token}-${index}`} />)}</div>;
 }
 
+const extraStories = [
+  {
+    id: 'hungry-cat',
+    title: 'The Hungry Cat',
+    subtitle: 'Milo the cat is hungry and learns to share.',
+    pages: [
+      { label: 'Page 1', sentence: 'Milo is a hungry cat.' },
+      { label: 'Page 2', sentence: 'He sees a piece of bread.' },
+      { label: 'Page 3', sentence: 'A small bird sits near the bread.' },
+      { label: 'Page 4', sentence: 'The bird is hungry too.' },
+      { label: 'Page 5', sentence: 'Milo shares the bread.' },
+      { label: 'Page 6', sentence: 'Now they are good friends.' },
+    ],
+  },
+  {
+    id: 'rainy-day',
+    title: 'A Rainy Day',
+    subtitle: 'Sam wants to play outside in the rain.',
+    pages: [
+      { label: 'Page 1', sentence: 'It is a rainy day.' },
+      { label: 'Page 2', sentence: 'Sam wants to play outside.' },
+      { label: 'Page 3', sentence: 'Mom gives him a yellow coat.' },
+      { label: 'Page 4', sentence: 'Sam jumps in the water.' },
+      { label: 'Page 5', sentence: 'Splash splash splash.' },
+      { label: 'Page 6', sentence: 'Then he goes home and drinks warm milk.' },
+    ],
+  },
+  {
+    id: 'birthday-cake',
+    title: 'The Birthday Cake',
+    subtitle: 'Lily has a happy birthday with her family.',
+    pages: [
+      { label: 'Page 1', sentence: 'Today is a birthday for Lily.' },
+      { label: 'Page 2', sentence: 'Her family comes to the house.' },
+      { label: 'Page 3', sentence: 'They bring a big cake.' },
+      { label: 'Page 4', sentence: 'Lily makes a wish.' },
+      { label: 'Page 5', sentence: 'She blows out the candles.' },
+      { label: 'Page 6', sentence: 'Everyone claps and smiles.' },
+    ],
+  },
+  {
+    id: 'school-day',
+    title: 'A Day at School',
+    subtitle: 'Ben has a good day with his friend Ana.',
+    pages: [
+      { label: 'Page 1', sentence: 'Ben walks to school.' },
+      { label: 'Page 2', sentence: 'He sees his friend Ana.' },
+      { label: 'Page 3', sentence: 'They read a new book.' },
+      { label: 'Page 4', sentence: 'Then they play with a ball.' },
+      { label: 'Page 5', sentence: 'At lunch they eat an apple.' },
+      { label: 'Page 6', sentence: 'Ben has a good day.' },
+    ],
+  },
+  {
+    id: 'lost-hat',
+    title: 'The Lost Hat',
+    subtitle: 'Nora looks everywhere for her blue hat.',
+    pages: [
+      { label: 'Page 1', sentence: 'Nora has a blue hat.' },
+      { label: 'Page 2', sentence: 'Today the hat is gone.' },
+      { label: 'Page 3', sentence: 'She looks under the bed.' },
+      { label: 'Page 4', sentence: 'She looks in the garden.' },
+      { label: 'Page 5', sentence: 'Her dog finds the hat.' },
+      { label: 'Page 6', sentence: 'Nora says thank you.' },
+    ],
+  },
+  {
+    id: 'night-sky',
+    title: 'The Night Sky',
+    subtitle: 'Omar watches the stars and makes a wish.',
+    pages: [
+      { label: 'Page 1', sentence: 'The sun goes down.' },
+      { label: 'Page 2', sentence: 'The moon comes up.' },
+      { label: 'Page 3', sentence: 'Omar looks at the stars.' },
+      { label: 'Page 4', sentence: 'One star is very bright.' },
+      { label: 'Page 5', sentence: 'He makes a wish.' },
+      { label: 'Page 6', sentence: 'Then he goes to sleep.' },
+    ],
+  },
+];
+
+function withExtraStories(base: Story[]): Story[] {
+  const themes = Array.from(new Set(base.map((item) => item.theme)));
+  const extras = extraStories.map((item, i) => ({ ...item, theme: themes[i % Math.max(themes.length, 1)] ?? 'garden' }));
+  return [...base, ...extras] as Story[];
+}
+ 
+const wordFamilies = [
+  { id: 'at', ending: 'at', words: [['cat', '🐱'], ['bat', '🦇'], ['hat', '🎩'], ['mat', ''], ['sat', '']] },
+  { id: 'an', ending: 'an', words: [['can', '🥫'], ['man', '👨'], ['pan', '🍳'], ['van', '🚐'], ['fan', '']] },
+  { id: 'ig', ending: 'ig', words: [['pig', '🐷'], ['dig', '⛏️'], ['big', '🐘'], ['wig', '']] },
+  { id: 'op', ending: 'op', words: [['hop', '🐇'], ['mop', '🧹'], ['top', '🔝'], ['pop', '🎈']] },
+  { id: 'ug', ending: 'ug', words: [['bug', '🐛'], ['hug', '🤗'], ['mug', '☕'], ['rug', '']] },
+  { id: 'en', ending: 'en', words: [['hen', '🐔'], ['pen', '🖊️'], ['ten', '🔟'], ['men', '']] },
+  { id: 'un', ending: 'un', words: [['sun', '☀️'], ['bun', '🍞'], ['run', '🏃'], ['fun', '🎉']] },
+  { id: 'ot', ending: 'ot', words: [['hot', '🔥'], ['pot', '🍲'], ['cot', '🛏️'], ['dot', '⚫']] },
+];
+
+function FamilyWord({ word, ending, emoji }: { word: string; ending: string; emoji: string }) {
+  const letters = word.toUpperCase().split('');
+  const start = letters.length - ending.length;
+  return (
+    <div className="story-spelled-word">
+      {emoji ? <div style={{ fontSize: '2rem', textAlign: 'center' }} aria-hidden="true">{emoji}</div> : null}
+      <div className="story-letter-strip">
+        {letters.map((letter, i) => (
+          <img
+            key={letter + '-' + i}
+            src={alphabetImageUrl(letter)}
+            alt={letter + ' in ASL fingerspelling'}
+            loading="lazy"
+            style={i >= start ? { outline: '3px solid #c4573a', outlineOffset: -3, borderRadius: 8 } : undefined}
+          />
+        ))}
+      </div>
+      <strong>{word.slice(0, start)}<span style={{ color: '#c4573a' }}>{word.slice(start)}</span></strong>
+    </div>
+  );
+}
+
 function StoriesPage({ stories }: { stories: Story[] }) {
+  const [tab, setTab] = useState<'story' | 'first'>('story');
+  const [storyIndex, setStoryIndex] = useState(0);
+  const [familyIndex, setFamilyIndex] = useState(0);
+  const story = stories[storyIndex];
+  const family = wordFamilies[familyIndex];
+  const theme = stories[0]?.theme ?? '';
+  return (
+    <>
+      <PageIntro
+        eyebrow="Storybook garden"
+        title={tab === 'story' ? 'Read it, spell it, sign it.' : 'Short words, big steps.'}
+        copy={tab === 'story'
+          ? 'Read the simple English story. Above every word, each letter is shown with its ASL fingerspelling handshape.'
+          : 'Words that end the same way are grouped together. Watch the colored handshapes repeat from word to word.'}
+      />
+      <main className="page-wrap page-content">
+        <div className="story-picker" role="tablist" aria-label="Choose a section" style={{ marginBottom: 16 }}>
+          <button type="button" role="tab" aria-selected={tab === 'story'} className={tab === 'story' ? 'active' : ''} onClick={() => setTab('story')}>Story Time</button>
+          <button type="button" role="tab" aria-selected={tab === 'first'} className={tab === 'first' ? 'active' : ''} onClick={() => setTab('first')}>First Words</button>
+        </div>
+        {tab === 'story' ? (
+          story ? (
+            <>
+              <div className="story-picker" aria-label="Choose a story">{stories.map((item, index) => <button type="button" className={index === storyIndex ? 'active' : ''} onClick={() => setStoryIndex(index)} key={item.id}>{item.title}</button>)}</div>
+              <section className={`storybook storybook-${story.theme}`}>
+                <div className="storybook-header"><span>Complete story</span><strong>{story.title}</strong></div>
+                <StoryIllustration theme={story.theme} />
+                <div className="storybook-copy"><h2>{story.title}</h2><p>{story.subtitle}</p><div className="story-full-text">{story.pages.map((page, index) => <section key={`${page.label}-${index}`}><span className="story-page-label">{page.label}</span><StoryLine text={page.sentence} /></section>)}</div></div>
+                <div className="storybook-controls"><Link href="/lookup" className="text-button">Try the visual translator →</Link></div>
+              </section>
+            </>
+          ) : null
+        ) : (
+          <>
+            <div className="story-picker" aria-label="Choose a word family">
+              {wordFamilies.map((item, index) => (
+                <button type="button" className={index === familyIndex ? 'active' : ''} onClick={() => setFamilyIndex(index)} key={item.id}>-{item.ending}</button>
+              ))}
+            </div>
+            <section className={`storybook storybook-${theme}`}>
+              <div className="storybook-header"><span>Word family</span><strong>The -{family.ending} family</strong></div>
+              <div className="storybook-copy">
+                <h2>The -{family.ending} family</h2>
+                <p>Every word ends with the same letters. Look for the colored handshapes.</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 28, justifyContent: 'center', marginTop: 16 }}>
+                  {family.words.map(([word, emoji]) => (
+                    <FamilyWord key={family.id + '-' + word} word={word} ending={family.ending} emoji={emoji} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+      </main>
+    </>
+  );
+}
+
+function OldStoriesPage({ stories }: { stories: Story[] }) {
   const [storyIndex, setStoryIndex] = useState(0);
   const story = stories[storyIndex];
   if (!story) return null;
@@ -1582,7 +1761,7 @@ function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
         <Route path="/reference">{() => <ReferencePage alphabet={data.alphabet} />}</Route>
         <Route path="/numbers" component={NumbersPage} />
         <Route path="/fruits-vegetables">{() => <FruitsPage fruits={data.fruits} />}</Route>
-        <Route path="/stories">{() => <StoriesPage stories={data.stories} />}</Route>
+        <Route path="/stories">{() => <StoriesPage stories={withExtraStories(data.stories)} />>}</Route>
         <Route path="/about" component={AboutPage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/privacy" component={PrivacyPage} />
