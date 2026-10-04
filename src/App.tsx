@@ -1277,7 +1277,7 @@ function withExtraStories(base: Story[]): Story[] {
   const extras = extraStories.map((item, i) => ({ ...item, theme: themes[i % Math.max(themes.length, 1)] ?? 'garden' }));
   return [...base, ...extras] as Story[];
 }
- 
+
 const wordFamilies = [
   { id: 'at', ending: 'at', words: [['cat', '🐱'], ['bat', '🦇'], ['hat', '🎩'], ['mat', ''], ['sat', '']] },
   { id: 'an', ending: 'an', words: [['can', '🥫'], ['man', '👨'], ['pan', '🍳'], ['van', '🚐'], ['fan', '']] },
@@ -1761,7 +1761,7 @@ function Router({ data }: { data: ReturnType<typeof useGardenData> }) {
         <Route path="/reference">{() => <ReferencePage alphabet={data.alphabet} />}</Route>
         <Route path="/numbers" component={NumbersPage} />
         <Route path="/fruits-vegetables">{() => <FruitsPage fruits={data.fruits} />}</Route>
-        <Route path="/stories">{() => <StoriesPage stories={data.stories} />}</Route>        
+        <Route path="/stories">{() => <StoriesPage stories={withExtraStories(data.stories)} />}</Route>
         <Route path="/about" component={AboutPage} />
         <Route path="/contact" component={ContactPage} />
         <Route path="/privacy" component={PrivacyPage} />
